@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://dx48l63nmn0fy"]
+
+[ext_resource type="Script" uid="uid://ck6ph10q4je15" path="res://objects/player/player_physics.gd" id="1_ssrue"]
+[ext_resource type="Texture2D" uid="uid://bbn8gmteg7pny" path="res://assets/fox.png" id="2_ssrue"]
+[ext_resource type="Script" uid="uid://3kueenl6mejc" path="res://objects/player/state.gd" id="2_xkryw"]
+[ext_resource type="Script" uid="uid://cvugwuhje4cgh" path="res://objects/player/States/on_ground.gd" id="3_ow0dq"]
+[ext_resource type="Script" uid="uid://vwb40wmsr2u1" path="res://objects/player/States/on_air.gd" id="4_m4kly"]
+[ext_resource type="Script" uid="uid://c0ko0y8bp1cq0" path="res://objects/player/States/crouch_charge.gd" id="5_xgwla"]
+[ext_resource type="Script" uid="uid://oyo7o3j2wg4v" path="res://objects/player/States/slide.gd" id="6_bi5m7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2apt5"]
+size = Vector2(64, 164)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ow0dq"]
+atlas = ExtResource("2_ssrue")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_psowp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ow0dq")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=1413235966 node_paths=PackedStringArray("animation", "collision", "floor_ray_cast")]
+z_index = 1
+script = ExtResource("1_ssrue")
+animation = NodePath("Collision/AnimatedSprite2D")
+collision = NodePath("Collision")
+floor_ray_cast = NodePath("Collision/FloorSensor")
+
+[node name="StateMachine" type="Node" parent="." unique_id=312622723]
+script = ExtResource("2_xkryw")
+
+[node name="OnGround" type="Node" parent="StateMachine" unique_id=1599437754]
+script = ExtResource("3_ow0dq")
+
+[node name="OnAir" type="Node" parent="StateMachine" unique_id=1164953414]
+script = ExtResource("4_m4kly")
+
+[node name="SpinDash" type="Node" parent="StateMachine" unique_id=2026825234]
+script = ExtResource("5_xgwla")
+
+[node name="SuperPeelOut" type="Node" parent="StateMachine" unique_id=1280572742]
+script = ExtResource("6_bi5m7")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1783169758]
+position = Vector2(0, -13)
+shape = SubResource("RectangleShape2D_2apt5")
+
+[node name="FloorSensor" type="RayCast2D" parent="Collision" unique_id=618410669]
+position = Vector2(0, 13)
+target_position = Vector2(0, 100)
+
+[node name="RightWallSensor" type="RayCast2D" parent="Collision" unique_id=2039654810]
+position = Vector2(32, 13)
+target_position = Vector2(0, 85)
+
+[node name="LeftWallSensor" type="RayCast2D" parent="Collision" unique_id=117824714]
+position = Vector2(-32, 13)
+target_position = Vector2(0, 85)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Collision" unique_id=1655054101]
+position = Vector2(-7, -29)
+sprite_frames = SubResource("SpriteFrames_psowp")
+animation = &"idle"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=59492341]
+zoom = Vector2(0.66, 0.66)
+limit_enabled = false
+limit_left = 0
+limit_top = 0
+editor_draw_limits = true

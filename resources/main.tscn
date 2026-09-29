@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://cvfa8rpduxup"]
+
+[ext_resource type="Script" uid="uid://bo4cnsxdicnxi" path="res://objects/player/camera.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://dx48l63nmn0fy" path="res://objects/player/player.tscn" id="2_y8qqb"]
+
+[node name="main" type="Node" unique_id=295834754]
+
+[node name="PlayerCamera" type="Node2D" parent="." unique_id=1436929113]
+position = Vector2(212, 120)
+script = ExtResource("2")
+
+[node name="CameraScroll" type="Node2D" parent="PlayerCamera" unique_id=1527373032]
+
+[node name="Camera2D" type="Camera2D" parent="PlayerCamera/CameraScroll" unique_id=1785260634]
+limit_left = 0
+limit_top = 0
+editor_draw_limits = true
+
+[node name="Player" parent="." unique_id=1413235966 instance=ExtResource("2_y8qqb")]
+position = Vector2(33, 313.92)
+
+[node name="cirecle" type="Node2D" parent="." unique_id=329633433]
+position = Vector2(1024, 512)
+scale = Vector2(2, 2)
+
+[node name="Node2D" type="Node2D" parent="cirecle" unique_id=324651316]
+position = Vector2(-32, -32)
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle/Node2D" unique_id=2008388538]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle/Node2D" unique_id=1272068277]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle/Node2D/StaticBody2D" unique_id=2105625202]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="Node2D2" type="Node2D" parent="cirecle" unique_id=978868876]
+position = Vector2(32, -32)
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle/Node2D2" unique_id=2104854837]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle/Node2D2" unique_id=8230135]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle/Node2D2/StaticBody2D" unique_id=209808359]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="Node2D3" type="Node2D" parent="cirecle" unique_id=1880229340]
+position = Vector2(32, 32)
+rotation = -3.14159
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle/Node2D3" unique_id=1055062574]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle/Node2D3" unique_id=1431703095]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle/Node2D3/StaticBody2D" unique_id=1254785359]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="Node2D4" type="Node2D" parent="cirecle" unique_id=1163832978]
+position = Vector2(-32, 32)
+rotation = -1.5708
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle/Node2D4" unique_id=1585840367]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle/Node2D4" unique_id=168769467]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle/Node2D4/StaticBody2D" unique_id=562448536]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="cirecle2" type="Node2D" parent="." unique_id=984398613]
+position = Vector2(1581, 576)
+
+[node name="Node2D" type="Node2D" parent="cirecle2" unique_id=695795071]
+position = Vector2(-32, -32)
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle2/Node2D" unique_id=382362497]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle2/Node2D" unique_id=468116468]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle2/Node2D/StaticBody2D" unique_id=2127785110]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="Node2D2" type="Node2D" parent="cirecle2" unique_id=481068175]
+position = Vector2(32, -32)
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle2/Node2D2" unique_id=246788075]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle2/Node2D2" unique_id=1774425253]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle2/Node2D2/StaticBody2D" unique_id=289530698]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="Node2D3" type="Node2D" parent="cirecle2" unique_id=797419752]
+position = Vector2(32, 32)
+rotation = -3.14159
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle2/Node2D3" unique_id=783544885]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle2/Node2D3" unique_id=1582001078]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle2/Node2D3/StaticBody2D" unique_id=2000826351]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="Node2D4" type="Node2D" parent="cirecle2" unique_id=133484004]
+position = Vector2(-32, 32)
+rotation = -1.5708
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="cirecle2/Node2D4" unique_id=2059523387]
+modulate = Color(0, 0, 0, 1)
+region_enabled = true
+region_rect = Rect2(640, 0, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cirecle2/Node2D4" unique_id=892388621]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cirecle2/Node2D4/StaticBody2D" unique_id=435301505]
+visible = false
+polygon = PackedVector2Array(-64, 64, -61, 38, -55, 16, -42, -8, -28, -25, -8, -42, 12, -53, 36, -61, 64, -64, 64, 64)
+
+[node name="StageMusic" type="AudioStreamPlayer" parent="." unique_id=1342682483]
+autoplay = true

@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://c8d4x57uju8a4"]
+
+[ext_resource type="PackedScene" uid="uid://dx48l63nmn0fy" path="res://objects/player/player.tscn" id="1_1fvki"]
+[ext_resource type="Texture2D" uid="uid://c87hh252jkthe" path="res://icon.svg" id="1_u2iws"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_f1ai2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f1ai2"]
+radius = 0.50110126
+
+[node name="TestArea" type="Node2D" unique_id=112508752]
+
+[node name="collision" type="Node2D" parent="." unique_id=29586208]
+
+[node name="Polygon2D" type="Polygon2D" parent="collision" unique_id=1219766775]
+position = Vector2(3, -15)
+color = Color(0.851769, 0.8517689, 0.85176885, 1)
+polygon = PackedVector2Array(455.99997, 752, 1447.9999, 752, 1519.9999, 744, 1592.0001, 720.00006, 1648, 688, 1687.9999, 656, 1744.0002, 600.00006, 1792, 528, 1816, 463.99997, 1840, 352, 1856, -414, 1979, -414, 4348.158, -415.1729, 4705, -558, 5797, -603, 6231, -744, 6233, -98, 6246, 1, 6262, 79, 6287, 164, 6319, 230, 6366, 293, 6427, 344, 6504, 391, 6591, 427, 6700, 450, 7596, 450, 7799, 423, 7951, 353, 8026, 259, 8067, 145, 8116, -25, 8111, -1092, 8689, -1094, 8678, -1725, 8851, -1722, 8848, -942, 8261, -942, 8270, 584, 6011, 582, 6020, -249, 5533, -232, 5527, -98, 5211, -95, 5211, -237, 4231, -242, 4224, -104, 3948, -97, 3952, -249, 3033, -253, 3019, -91, 2723, -94, 2726.0083, -249, 1979, -249, 1981, 1081, 0, 1080, 0, 619.11115, -621, 615, -621, 481, -613, -417, -519, -413, -518.2476, -77.07486, -128, -82, -125, 438, -206, 438, -204, 85, -225, 23, -281, -12, -518, -12, -520, 350, -486, 433, -404, 481, 0, 481, 318, 481, 319, 623, 339, 690, 382, 733)
+uv = PackedVector2Array(1488, 744.00006, 1488, 744.00006)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="collision/Polygon2D" unique_id=1292675629]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collision/Polygon2D/StaticBody2D" unique_id=1531010569]
+polygon = PackedVector2Array(455.99997, 752, 1447.9999, 752, 1519.9999, 744, 1592.0001, 720.00006, 1648, 688, 1687.9999, 656, 1744.0002, 600.00006, 1792, 528, 1816, 463.99997, 1840, 352, 1856, -414, 1979, -414, 4348.158, -415.1729, 4705, -558, 5797, -603, 6231, -744, 6233, -98, 6246, 1, 6262, 79, 6287, 164, 6319, 230, 6366, 293, 6427, 344, 6504, 391, 6591, 427, 6700, 450, 7596, 450, 7799, 423, 7951, 353, 8026, 259, 8067, 145, 8116, -25, 8111, -1092, 8689, -1094, 8678, -1725, 8851, -1722, 8848, -942, 8261, -942, 8270, 584, 6011, 582, 6020, -249, 5533, -232, 5527, -98, 5211, -95, 5211, -237, 4231, -242, 4224, -104, 3948, -97, 3952, -249, 3033, -253, 3019, -91, 2723, -94, 2726.0083, -249, 1979, -249, 1981, 1081, 0, 1080, 0, 619.11115, -621, 615, -621, 481, -613, -417, -519, -413, -518.2476, -77.07486, -128, -82, -125, 438, -206, 438, -204, 85, -225, 23, -281, -12, -518, -12, -520, 350, -486, 433, -404, 481, 0, 481, 318, 481, 319, 623, 339, 690, 382, 733)
+
+[node name="Polygon2D2" type="Polygon2D" parent="collision" unique_id=441465787]
+color = Color(0.8474744, 0.84747446, 0.84747446, 1)
+polygon = PackedVector2Array(1612, 403, 1612, 307, 1495, 307, 1414, 254, 1380, 164, 1380, -4, 1310, -4, 1311, 396)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="collision/Polygon2D2" unique_id=1323111935]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collision/Polygon2D2/StaticBody2D" unique_id=1782643120]
+polygon = PackedVector2Array(1612, 403, 1612, 307, 1495, 307, 1414, 254, 1380, 164, 1380, -4, 1310, -4, 1311, 396)
+
+[node name="Polygon2D3" type="Polygon2D" parent="collision" unique_id=289862937]
+color = Color(0.8474744, 0.84747446, 0.84747446, 1)
+polygon = PackedVector2Array(750, 2, 1037, 1, 1039, 166, 743, 160)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="collision/Polygon2D3" unique_id=427354134]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collision/Polygon2D3/StaticBody2D" unique_id=1855211438]
+polygon = PackedVector2Array(750, 2, 1037, 1, 1039, 166, 743, 160)
+
+[node name="Polygon2D4" type="Polygon2D" parent="collision" unique_id=1407607471]
+color = Color(0.8474744, 0.84747446, 0.84747446, 1)
+polygon = PackedVector2Array(293, 147, 304, 140, 331, 144, 332, 158, 318, 170, 297, 167)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="collision" unique_id=1299937038]
+position = Vector2(7098, -453)
+scale = Vector2(1024, 1024)
+mesh = SubResource("SphereMesh_f1ai2")
+texture = ExtResource("1_u2iws")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="collision/MeshInstance2D" unique_id=89485012]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision/MeshInstance2D/StaticBody2D" unique_id=1316195910]
+shape = SubResource("CircleShape2D_f1ai2")
+
+[node name="Player" parent="." unique_id=1407205757 instance=ExtResource("1_1fvki")]
+position = Vector2(2020, -536)
