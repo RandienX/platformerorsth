@@ -1,0 +1,17 @@
+res://assets/tilesets/test_level.tres::7a547abd5b6607b8736c1ed9865a4705::1791061982::res://.godot/exported/133200997/export-f55616090553e8756e1e3fc4642bba56-test_level.res
+res://objects/cash/cash.tscn::86db16b674b505711037e4ed839d435c::1790794347::res://.godot/exported/133200997/export-9d74f4d576f486333aea4458893cad38-cash.scn
+res://objects/CollisionTrigger/collision_trigger.tscn::4c4b919bdb164c78b4a415eee98707bc::1791045594::res://.godot/exported/133200997/export-af4528d43da59087892dfdedc8702024-collision_trigger.scn
+res://objects/enemies/subscenes/laser_projectile.tscn::5d59f1c2ef5354a173fb3fab4aa952e1::1791048215::res://.godot/exported/133200997/export-d5b88b0152f335d4cb8b5845b0bae79e-laser_projectile.scn
+res://objects/enemies/flying_enemy.tscn::b14f1a929af0c7cfb6e6610a75884e56::1791053314::res://.godot/exported/133200997/export-22848c843bf0314831b522a118b0da33-flying_enemy.scn
+res://objects/enemies/ground_enemy.tscn::8e499a5536f9b44d4646469e68ed5976::1791048306::res://.godot/exported/133200997/export-9d2ef3394ac731e4e1f765537b9f36b3-ground_enemy.scn
+res://objects/enemies/shooting_enemy.tscn::fa93bdfdeac544055154824dabc9c74e::1791048739::res://.godot/exported/133200997/export-810228b2f7f62266bb894853a1d217c8-shooting_enemy.scn
+res://objects/moving_platform/moving_platform.tscn::61a244b7b0f8ef0b1a82e31fc23b6332::1791057926::res://.godot/exported/133200997/export-89e788d2780496c4c7f318d3ae1604ae-moving_platform.scn
+res://objects/player/player.tscn::adb6e808a8703649c238cee418fa1e63::1791061196::res://.godot/exported/133200997/export-af43f1489f8ddd2e3337968c398c1c3c-player.scn
+res://objects/spikes/spike.tscn::ce824708066d3b53a62f33f518161edf::1791063374::res://.godot/exported/133200997/export-300bb901b803a8b4249e7f7bfe0be1e7-spike.scn
+res://objects/breakable_wall.tscn::c1a7376ca6777ea7be551da96b9d0b60::1791056566::res://.godot/exported/133200997/export-4450e1c7869cab7316a415e3034dab33-breakable_wall.scn
+res://objects/checkpoint.tscn::ea30267e540df5dc76ca43051d1f9ae4::1790957945::res://.godot/exported/133200997/export-7ff64b4b5b05906ea265ee1ce747175c-checkpoint.scn
+res://objects/goal.tscn::6ced98d11e74f53d392a6f24f97de701::1790877953::res://.godot/exported/133200997/export-525fd299529045cba54c68177f49c299-goal.scn
+res://resources/main.tscn::ce85638999f391c43c94ca7fc5367ca3::1790714869::res://.godot/exported/133200997/export-f96eff07f09be30edac97d64913d4e64-main.scn
+res://scenes/levels/test_area.tscn::0460e2a750273fe02f276b11db74ba19::1791063980::res://.godot/exported/133200997/export-9b21c969c2c68cd4ef20df1f064b2264-test_area.scn
+res://scenes/menu/main_menu.tscn::982b8f17742914a6052900f7e91b3706::1790622661::res://.godot/exported/133200997/export-9ae7820dfc5b492c0424e6a9127ac776-main_menu.scn
+res://scenes/menu/start_menu.tscn::34c9dc838f2a27b66f1e2b20d2803b7e::1790787712::res://.godot/exported/133200997/export-5a835acc39717603bcfa277585a7679b-start_menu.scn

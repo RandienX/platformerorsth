@@ -1,0 +1,15 @@
+TextureRect
+Sprite2D
+RemoteTransform2D
+CollisionShape2D
+Area2D
+GPUParticles2D
+RigidBody2D
+ColorRect
+MeshInstance2D
+Node2D
+Marker2D
+CharacterBody2D
+PathFollow2D
+Path2D
+TileMapLayer
