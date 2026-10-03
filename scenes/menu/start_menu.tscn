@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://xwew1qttpeig"]
 
 [ext_resource type="Script" uid="uid://d2o4no71kncrj" path="res://scenes/menu/start_menu.gd" id="1_r0pvr"]
-[ext_resource type="Texture2D" uid="uid://bbn8gmteg7pny" path="res://assets/fox.png" id="2_j28ev"]
+[ext_resource type="Texture2D" uid="uid://cqg1egdfpuph5" path="res://assets/textures/player/fox.png" id="2_r0pvr"]
 
 [node name="StartMenu" type="Control" unique_id=330074401]
 layout_mode = 3
@@ -42,4 +42,4 @@ vertical_alignment = 1
 position = Vector2(1515.9999, 684.0002)
 rotation = -0.23387411
 scale = Vector2(-5, 8)
-texture = ExtResource("2_j28ev")
+texture = ExtResource("2_r0pvr")

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b40wlk80q74gq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f1ai2"]
+radius = 32.0
+
+[node name="Cash" type="Area2D" unique_id=336148987 groups=["cash"]]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1202799868]
+shape = SubResource("CircleShape2D_f1ai2")
+
+[node name="Label" type="Label" parent="." unique_id=748444572]
+offset_left = -34.0
+offset_top = -51.0
+offset_right = 30.0
+offset_bottom = 37.0
+theme_override_font_sizes/font_size = 64
+text = "💸"
