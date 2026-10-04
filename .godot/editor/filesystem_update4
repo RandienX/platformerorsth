@@ -1,5 +1,10 @@
 res://scenes/levels/test_area.tscn
 res://assets/tilesets/test_level.tres
-res://objects/spikes/spike.gd
-res://objects/spikes/spike.tscn
+res://objects/CollisionTrigger/MaskSetter.gd
+res://objects/boost_pad/boost_pad.tscn
+res://objects/player/player_physics.gd
 res://objects/player/player.tscn
+res://objects/breakable_wall.tscn
+res://objects/enemies/subscripts/breakable_object.gd
+res://objects/cash/cash.tscn
+res://objects/death_trigger.tscn
