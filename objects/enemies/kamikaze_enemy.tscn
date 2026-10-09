@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://c70dgfiux6nem"]
+
+[ext_resource type="Script" uid="uid://coqn8q7ktvkug" path="res://objects/enemies/subscripts/kamikaze_enemy.gd" id="1_2fn6p"]
+[ext_resource type="Texture2D" uid="uid://c87hh252jkthe" path="res://icon.svg" id="2_00cnp"]
+[ext_resource type="Texture2D" uid="uid://b8hbmj0nnydqy" path="res://assets/textures/level/line_tile_test.png" id="3_wq58f"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx07j"]
+radius = 64.0
+height = 128.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iqggc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wq58f"]
+radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iqggc"]
+radius = 150.0
+
+[node name="KamikazeEnemy" type="CharacterBody2D" unique_id=1212700434 node_paths=PackedStringArray("explosion_sprite", "explosion_area", "collision", "hurt_area", "contact_area") groups=["enemies"]]
+z_index = 5
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_2fn6p")
+explosion_radius = 150
+explosion_sprite = NodePath("ExplosionHitbox/Sprite2D")
+explosion_area = NodePath("ExplosionHitbox/CollisionShape2D")
+collision = NodePath("CollisionShape2D")
+hurt_area = NodePath("Hitbox")
+contact_area = NodePath("Hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1829418275]
+shape = SubResource("CapsuleShape2D_tx07j")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=109836339]
+position = Vector2(5.7263715e-06, -1.4999886)
+scale = Vector2(128.14516, 65.5)
+mesh = SubResource("CapsuleMesh_iqggc")
+texture = ExtResource("2_00cnp")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=836647209 groups=["hookable"]]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=833583095]
+shape = SubResource("CircleShape2D_wq58f")
+
+[node name="ExplosionHitbox" type="Area2D" parent="." unique_id=1679678562 groups=["hookable"]]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionHitbox" unique_id=234524064]
+shape = SubResource("CircleShape2D_iqggc")
+
+[node name="Sprite2D" type="Sprite2D" parent="ExplosionHitbox" unique_id=1968971763]
+visible = false
+scale = Vector2(5, 5)
+texture = ExtResource("3_wq58f")

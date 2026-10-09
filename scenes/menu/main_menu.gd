@@ -1,7 +1,43 @@
 extends Control
 
+signal button_changed
+var button_index := 0
+@onready var button_container: VBoxContainer = $VBoxContainer
+var button_container_start_pos
+
+func _ready() -> void:
+	button_container.position.y += 330
+	button_container_start_pos = button_container.position
+	button_changed.connect(button_move)
+
+func _unhandled_input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("down"):
+		button_index = clampi(button_index + 1, 0, 4)
+		button_changed.emit()
+	elif Input.is_action_just_pressed("up"):
+		button_index = clampi(button_index - 1, 0, 4)
+		button_changed.emit()
+	elif Input.is_action_just_pressed("jump"):
+		button_container.get_children()[button_index].pressed.emit()
+	
+func _physics_process(_delta: float) -> void:
+	for c: Button in button_container.get_children():
+		c.global_position.x = button_container.global_position.x - (c.global_position.y * 0.335) + 160
+
+func button_move():
+	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	var tween2 = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(button_container, "position", button_container_start_pos - Vector2(0, button_index * 160), 0.5)
+	tween2.tween_property(button_container.get_children()[button_index], "scale", Vector2(1.1, 1.1), 0.33)
+	
+	await tween2.finished
+	for c in button_container.get_children():
+		if c != button_container.get_children()[button_index]:
+			var tween3 = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween3.tween_property(c, "scale", Vector2(1.0, 1.0), 0.3)
+
 func _on_campaign_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/levels/test_area.tscn")
+	get_tree().change_scene_to_file("res://scenes/menu/campaign_map.tscn")
 	
 func _on_exit_pressed() -> void:
 	get_tree().quit()

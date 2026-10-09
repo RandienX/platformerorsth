@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b8tfk0ovnop2t"]
 
-[ext_resource type="Script" uid="uid://ianmdbn243iy" path="res://objects/enemies/subscripts/breakable_object.gd" id="1_eqy6i"]
+[ext_resource type="Script" uid="uid://ianmdbn243iy" path="res://objects/enemies/main_classes/breakable_object.gd" id="1_eqy6i"]
 
 [sub_resource type="Gradient" id="Gradient_lcsqr"]
 colors = PackedColorArray(0.45452422, 0.45452428, 0.45452422, 1, 0.70380783, 0.70380783, 0.70380783, 1)
@@ -46,16 +46,18 @@ _bundled = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
 size = Vector2(128, 128)
 
-[node name="BreakableWall" type="CharacterBody2D" unique_id=1212700434 node_paths=PackedStringArray("hurt_area") groups=["enemies"]]
+[node name="BreakableWall" type="CharacterBody2D" unique_id=1212700434 node_paths=PackedStringArray("collision", "hurt_area", "contact_area") groups=["enemies"]]
 z_index = 1
-collision_layer = 7
-collision_mask = 7
+collision_layer = 15
+collision_mask = 15
 script = ExtResource("1_eqy6i")
 scene = SubResource("PackedScene_eqy6i")
 contact_damage = false
 bounce_player = false
 knockback_away = false
+collision = NodePath("CollisionShape2D")
 hurt_area = NodePath("Hitbox")
+contact_area = NodePath("Hitbox")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1829418275]
 z_index = 2

@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://dresg68db87xp"]
 
-[ext_resource type="Script" uid="uid://bbhrua1cm5pe1" path="res://boost_pad.gd" id="1_t38p0"]
+[ext_resource type="Script" uid="uid://bbhrua1cm5pe1" path="res://objects/boost_pad/boost_pad.gd" id="1_t38p0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
 size = Vector2(256, 20)
 
 [node name="BoostPad" type="Area2D" unique_id=1720581904 groups=["booster"]]
+collision_layer = 15
+collision_mask = 15
 monitoring = false
 script = ExtResource("1_t38p0")
 

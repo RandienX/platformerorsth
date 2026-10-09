@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://c80ydvqydtdgp"]
+
+[ext_resource type="Script" uid="uid://cxaerexhw5o7v" path="res://objects/enemies/main_classes/shooting_enemy.gd" id="1_1yflq"]
+[ext_resource type="Texture2D" uid="uid://c87hh252jkthe" path="res://icon.svg" id="2_f8fij"]
+[ext_resource type="PackedScene" uid="uid://b2obcek61fivp" path="res://objects/enemies/subscenes/laser_projectile.tscn" id="2_nc8a8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx07j"]
+radius = 50.0
+height = 128.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iqggc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yl2h5"]
+radius = 64.0
+
+[node name="ShootingEnemy" type="CharacterBody2D" unique_id=1212700434 node_paths=PackedStringArray("muzzle", "collision", "hurt_area", "contact_area") groups=["enemies"]]
+z_index = 1
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_1yflq")
+projectile_scene = ExtResource("2_nc8a8")
+muzzle = NodePath("Marker2D")
+detect_radius = 1500.0
+fire_interval = 0.5
+windup_time = 2.0
+burst_count = 3
+burst_interval = 0.5
+projectile_speed = 800.0
+score_value = 750
+collision = NodePath("CollisionShape2D")
+hurt_area = NodePath("Hitbox")
+contact_area = NodePath("Hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1829418275]
+shape = SubResource("CapsuleShape2D_tx07j")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=109836339]
+position = Vector2(5.7263715e-06, -1.4999886)
+scale = Vector2(128.14516, 65.5)
+mesh = SubResource("CapsuleMesh_iqggc")
+texture = ExtResource("2_f8fij")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=836647209 groups=["hookable"]]
+collision_layer = 4
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=833583095]
+shape = SubResource("CircleShape2D_yl2h5")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1514382060]

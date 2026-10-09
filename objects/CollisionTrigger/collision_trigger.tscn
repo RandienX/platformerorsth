@@ -6,7 +6,10 @@
 size = Vector2(64, 512)
 
 [node name="CollisionTrigger" type="Area2D" unique_id=497787903]
+collision_layer = 15
+collision_mask = 15
 script = ExtResource("1_m427j")
+required_vel = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=346487825]
 shape = SubResource("RectangleShape2D_f1ai2")

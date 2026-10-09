@@ -2,8 +2,26 @@
 
 [ext_resource type="Script" uid="uid://yp3ieur6r3hd" path="res://scenes/menu/main_menu.gd" id="1_nl8w3"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nl8w3"]
+skew = Vector2(0.335, 0)
+
+[sub_resource type="Theme" id="Theme_nl8w3"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
+[sub_resource type="Theme" id="Theme_3rkf3"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8m61"]
 skew = Vector2(0.335, 0)
+
+[sub_resource type="Theme" id="Theme_247la"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
+[sub_resource type="Theme" id="Theme_kiqgm"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
+[sub_resource type="Theme" id="Theme_hj162"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
 
 [node name="Control" type="Control" unique_id=1311963667]
 layout_mode = 3
@@ -20,24 +38,34 @@ color = Color(0.4351923, 0.43519226, 0.43519226, 1)
 polygon = PackedVector2Array(0, 0, 0, 1087, 960, 1080, 1300, 0)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=988878455]
+custom_minimum_size = Vector2(1000, 1080)
 layout_mode = 0
-offset_left = 960.0
-offset_right = 1981.0
+offset_left = 959.0
+offset_right = 1959.0
 offset_bottom = 1080.0
+offset_transform_enabled = true
 theme_override_constants/separation = 64
-alignment = 2
+alignment = 1
 
 [node name="campaign" type="Button" parent="VBoxContainer" unique_id=105138488]
-custom_minimum_size = Vector2(0, 96)
+custom_minimum_size = Vector2(1000, 96)
+custom_maximum_size = Vector2(960, -1)
 layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_nl8w3")
+theme_type_variation = &"skewed"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_q8m61")
 text = "Campaign"
 
 [node name="trial" type="Button" parent="VBoxContainer" unique_id=765200861]
 custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
 layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_3rkf3")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_q8m61")
@@ -45,7 +73,11 @@ text = "Time Trial"
 
 [node name="extras" type="Button" parent="VBoxContainer" unique_id=1538424765]
 custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
 layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_247la")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_q8m61")
@@ -53,7 +85,11 @@ text = "Extras"
 
 [node name="settings" type="Button" parent="VBoxContainer" unique_id=518769410]
 custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
 layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_kiqgm")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_q8m61")
@@ -61,7 +97,11 @@ text = "Settings"
 
 [node name="exit" type="Button" parent="VBoxContainer" unique_id=1004928351]
 custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
 layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_hj162")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_q8m61")

@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://ck6ph10q4je15" path="res://objects/player/player_physics.gd" id="1_ssrue"]
 [ext_resource type="Texture2D" uid="uid://bvlv00afvym6a" path="res://assets/textures/player/fox_test.png" id="2_g7ett"]
+[ext_resource type="Texture2D" uid="uid://bhmtoq8wfll2k" path="res://assets/textures/player/hook_line.png" id="2_xgwla"]
+[ext_resource type="Texture2D" uid="uid://b6bgdwurmofnh" path="res://assets/textures/player/hook_head.png" id="3_bi5m7"]
+[ext_resource type="Script" uid="uid://bsg5gl6hsay4k" path="res://objects/player/pause_menu.gd" id="3_ow0dq"]
 [ext_resource type="Script" uid="uid://uyfyylpwi5qs" path="res://objects/player/time.gd" id="3_ssrue"]
 [ext_resource type="Script" uid="uid://bj2myj7tl4un8" path="res://objects/player/score.gd" id="4_gnkmh"]
 [ext_resource type="Script" uid="uid://ccv6ic83svv44" path="res://objects/player/cash.gd" id="4_jnjyq"]
@@ -120,13 +123,37 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nl8w3"]
+skew = Vector2(0.335, 0)
+
+[sub_resource type="Theme" id="Theme_xkryw"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow0dq"]
+skew = Vector2(0.335, 0)
+
+[sub_resource type="Theme" id="Theme_m4kly"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
+[sub_resource type="Theme" id="Theme_xgwla"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
+[sub_resource type="Theme" id="Theme_bi5m7"]
+Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_f1ai2"]
 radius = 80.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xkryw"]
 size = Vector2(128, 192)
 
-[node name="Player" type="CharacterBody2D" unique_id=1413235966 node_paths=PackedStringArray("sprite", "camera", "collision", "hitbox", "hurtbox_slide", "hurtbox_attack")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ow0dq"]
+radius = 600.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m4kly"]
+radius = 24.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1413235966 node_paths=PackedStringArray("sprite", "camera", "collision", "hitbox", "hurtbox_slide", "hurtbox_attack", "hook_shot_detection_range", "hook_shot_hurtbox", "hook_line", "hook_head", "hook_head_area")]
 z_index = 1
 script = ExtResource("1_ssrue")
 debug_draw = true
@@ -136,11 +163,20 @@ collision = NodePath("Collision")
 hitbox = NodePath("Hitbox/CollisionShape2D")
 hurtbox_slide = NodePath("AnimatedSprite2D/HurtBoxSlide/CollisionShape2D")
 hurtbox_attack = NodePath("HurtBoxAttack/CollisionShape2D")
+hook_shot_detection_range = NodePath("HookshotDetectionRange")
+hook_shot_hurtbox = NodePath("HookHead/HookshotDetectEnemy/CollisionShape2D")
+hook_line = NodePath("HookLine")
+hook_head = NodePath("HookHead")
+hook_head_area = NodePath("HookHead/HookshotDetectEnemy")
+hook_shot_chain_texture = ExtResource("2_xgwla")
+hook_shot_head_texture = ExtResource("3_bi5m7")
+hook_shot_los_mask = 768
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1783169758]
 shape = SubResource("CircleShape2D_g7ett")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=59492341]
+physics_interpolation_mode = 1
 zoom = Vector2(0.66, 0.66)
 limit_enabled = false
 limit_left = 0
@@ -159,6 +195,8 @@ position = Vector2(64, 0)
 shape = SubResource("RectangleShape2D_f1ai2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1094593005]
+process_mode = 3
+script = ExtResource("3_ow0dq")
 
 [node name="UI" type="Control" parent="CanvasLayer" unique_id=1137890809]
 layout_mode = 3
@@ -267,6 +305,65 @@ theme_override_font_sizes/font_size = 48
 text = "000"
 horizontal_alignment = 2
 
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1485397461]
+process_mode = 2
+visible = false
+custom_minimum_size = Vector2(1000, 1080)
+offset_left = 959.0
+offset_right = 1959.0
+offset_bottom = 1080.0
+offset_transform_enabled = true
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="resume" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=687383151]
+custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
+layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_xkryw")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_ow0dq")
+text = "Resume"
+
+[node name="restart" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=708546670]
+custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
+layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_m4kly")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_ow0dq")
+text = "Restart"
+
+[node name="settings" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=44998624]
+custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
+layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_xgwla")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_ow0dq")
+text = "Settings"
+
+[node name="exit" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1618792724]
+custom_minimum_size = Vector2(0, 96)
+custom_maximum_size = Vector2(960, -1)
+layout_mode = 2
+offset_transform_enabled = true
+focus_mode = 0
+theme = SubResource("Theme_bi5m7")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_ow0dq")
+text = "Main Menu"
+
 [node name="Hitbox" type="Area2D" parent="." unique_id=1990595135]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=727568155]
@@ -278,6 +375,43 @@ shape = SubResource("CircleShape2D_f1ai2")
 position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_xkryw")
 
+[node name="HookshotDetectionRange" type="Area2D" parent="." unique_id=412112303]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HookshotDetectionRange" unique_id=98357579]
+position = Vector2(0, -32)
+shape = SubResource("CircleShape2D_ow0dq")
+
+[node name="HookHead" type="Sprite2D" parent="." unique_id=963622353]
+visible = false
+top_level = true
+texture = ExtResource("3_bi5m7")
+
+[node name="HookshotDetectEnemy" type="Area2D" parent="HookHead" unique_id=1547427194 groups=["hook_head"]]
+collision_layer = 384
+collision_mask = 384
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HookHead/HookshotDetectEnemy" unique_id=1360420445]
+position = Vector2(0, -32)
+shape = SubResource("CircleShape2D_m4kly")
+
+[node name="HookLine" type="Line2D" parent="." unique_id=1876762432]
+visible = false
+top_level = true
+texture_repeat = 2
+width = 12.0
+texture = ExtResource("2_xgwla")
+texture_mode = 1
+joint_mode = 1
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/resume" to="CanvasLayer" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/restart" to="CanvasLayer" method="_on_restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/exit" to="CanvasLayer" method="_on_exit_pressed"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Hitbox" to="." method="on_moving_platform"]
 [connection signal="area_exited" from="Hitbox" to="." method="off_moving_platform"]

@@ -7,9 +7,11 @@
 size = Vector2(128, 106)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d8nf4"]
-size = Vector2(128, 116)
+size = Vector2(90, 4)
 
 [node name="StaticBody2D" type="StaticBody2D" unique_id=1096697783]
+collision_layer = 15
+collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=713068572]
 texture_repeat = 2
@@ -30,5 +32,5 @@ position = Vector2(0, -64)
 monitoring = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=1435919660]
-position = Vector2(0, 6)
+position = Vector2(0, -54)
 shape = SubResource("RectangleShape2D_d8nf4")

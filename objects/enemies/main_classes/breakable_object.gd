@@ -1,0 +1,27 @@
+class_name BreakableObject
+extends Enemy
+## Enemy 4: a crate / wall / pot that breaks when the player attacks it
+## (jump ball, rolling, crouch-boost slide). It never hurts the player.
+##
+## Use `max_health` for "hits to break".
+## Set `respawns = false` for objects that should stay broken after the
+## player dies.
+
+@export_group("BreakAnim")
+@export var scene: PackedScene
+
+func _enemy_ready() -> void:
+	contact_damage = false                 # a crate never hurts you
+
+func _on_damaged() -> void:
+	_play("hit")
+
+func _on_died() -> void:
+	_play("break")
+	if scene == null or get_parent() == null:
+		return
+	var fx := scene.instantiate() as Node2D
+	if fx == null:
+		return
+	get_parent().add_child.call_deferred(fx)
+	fx.set_deferred("global_position", global_position)

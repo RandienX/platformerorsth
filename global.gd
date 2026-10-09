@@ -2,7 +2,7 @@ extends Node
 
 var level_time: float = 0.000
 var lives: int = 5
-var player: CharacterBody2D
+var player: Player
 
 func LOG(value: float, base: float) -> float: 
 	return log(value) / log(base)

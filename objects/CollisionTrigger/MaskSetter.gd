@@ -48,12 +48,11 @@ func _physics_process(_delta: float) -> void:
 		var bottom := xf * Vector2(0.0, half)
 		
 		var has_req_vel = true
-		if required_vel.x != 0 and required_vel.y != 0:
-			print(player.vel)
-			has_req_vel = true if abs(player.vel.x) > abs(required_vel.x) and signf(player.vel.x) == signf(required_vel.x) else false 
-			print(has_req_vel)
-			has_req_vel = true if abs(player.vel.y) > abs(required_vel.y) and signf(player.vel.y) == signf(required_vel.y) else false 
-			print(has_req_vel)
+		
+		if required_vel.x != 0.0:
+			has_req_vel = (absf(player.vel.x) >= absf(required_vel.x) and signf(player.vel.x) == signf(required_vel.x))
+		if has_req_vel and required_vel.y != 0.0:
+			has_req_vel = (absf(player.vel.y) >= absf(required_vel.y)and signf(player.vel.y) == signf(required_vel.y))
 		
 		if Geometry2D.segment_intersects_segment(_prev, now, top, bottom) != null and has_req_vel:
 			var local_x := (xf.affine_inverse() * now).x
@@ -61,7 +60,7 @@ func _physics_process(_delta: float) -> void:
 	_prev = now
 	_has_prev = true
 
-func _apply(body: Node, layer: int) -> void:
+func _apply(body: CharacterBody2D, layer: int) -> void:
 	var other := right_layer if layer == left_layer else left_layer
 	body.set_collision_mask_value(other, false)
 	body.set_collision_mask_value(layer, true)

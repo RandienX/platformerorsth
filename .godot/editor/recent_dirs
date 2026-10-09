@@ -1,8 +1,10 @@
+res://scenes/levels/
+res://scenes/menu/
+res://
 res://objects/
 res://objects/boost_pad/
 /home/randienx/Desktop/ProjectRanch/
 res://objects/moving_platform/
-res://
 res://objects/enemies/subscenes/
 res://objects/enemies/
 res://objects/CollisionTrigger/
@@ -12,4 +14,3 @@ res://objects/cash/
 res://assets/textures/player/
 res://assets/
 res://objects/player/
-res://scenes/menu/
