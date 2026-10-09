@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b0obvo6cmolf1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
+size = Vector2(64, 512)
+
+[node name="DeathTrigger" type="Area2D" unique_id=497787903 groups=["death"]]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=346487825]
+shape = SubResource("RectangleShape2D_f1ai2")

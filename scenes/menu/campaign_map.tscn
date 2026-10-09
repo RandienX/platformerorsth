@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://bt5pwv41rvj8x"]
+
+[ext_resource type="Script" uid="uid://lpsu53f1wxpf" path="res://scenes/menu/campaign_map.gd" id="1_xt75w"]
+
+[node name="CampaignMap" type="ColorRect" unique_id=2054287187]
+offset_right = 3960.0
+offset_bottom = 1080.0
+color = Color(0.93333334, 0.7490196, 0.5019608, 1)
+script = ExtResource("1_xt75w")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1502635369]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 221.0
+offset_top = 773.0
+offset_right = 281.0
+offset_bottom = 833.0
+color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+
+[node name="Button" type="Button" parent="ColorRect" unique_id=1202600715]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+
+[node name="Label" type="Label" parent="ColorRect/Button" unique_id=2030474561]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -43.0
+offset_right = 80.0
+offset_bottom = 2.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Ranch"
+
+[node name="Label2" type="Label" parent="ColorRect/Button" unique_id=856568519]
+layout_mode = 0
+offset_left = 451.0
+offset_top = -248.0
+offset_right = 579.0
+offset_bottom = -203.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Test LVL"
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=879230322]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 704.0
+offset_top = 569.0
+offset_right = 764.0
+offset_bottom = 629.0
+color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+
+[node name="Button" type="Button" parent="ColorRect2" unique_id=1871879169]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=1437109123]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 1207.0
+offset_top = 703.0
+offset_right = 1267.0
+offset_bottom = 763.0
+color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="." unique_id=637756932]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 1741.0
+offset_top = 676.0
+offset_right = 1801.0
+offset_bottom = 736.0
+color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+
+[connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="ColorRect2/Button" to="." method="_on_button2_pressed"]

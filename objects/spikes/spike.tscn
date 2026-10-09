@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c1r7ex6yef4o3"]
+
+[ext_resource type="Texture2D" uid="uid://b1fxb0em602sb" path="res://assets/textures/level/spike.png" id="1_le3v0"]
+[ext_resource type="Script" uid="uid://c74dd4jkj42ay" path="res://objects/spikes/spike.gd" id="2_2vg41"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
+size = Vector2(128, 106)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8nf4"]
+size = Vector2(90, 4)
+
+[node name="StaticBody2D" type="StaticBody2D" unique_id=1096697783]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=713068572]
+texture_repeat = 2
+position = Vector2(0, -63)
+shape = SubResource("RectangleShape2D_f1ai2")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1195897286]
+offset_left = -64.0
+offset_top = -128.0
+offset_right = 64.0
+texture = ExtResource("1_le3v0")
+expand_mode = 1
+stretch_mode = 1
+script = ExtResource("2_2vg41")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1243853672 groups=["danger"]]
+position = Vector2(0, -64)
+monitoring = false
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=1435919660]
+position = Vector2(0, -54)
+shape = SubResource("RectangleShape2D_d8nf4")

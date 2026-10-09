@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://nya80vcc61a6"]
+
+[ext_resource type="Script" uid="uid://bam8fy6h5tym4" path="res://objects/enemies/main_classes/ground_enemy.gd" id="1_5qhuq"]
+[ext_resource type="Texture2D" uid="uid://c87hh252jkthe" path="res://icon.svg" id="1_kysbq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx07j"]
+radius = 50.0
+height = 128.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_yl2h5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yl2h5"]
+radius = 64.0
+
+[node name="GroundEnemy" type="CharacterBody2D" unique_id=1212700434 node_paths=PackedStringArray("collision", "hurt_area", "contact_area") groups=["enemies"]]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_5qhuq")
+turn_pause = 0.5
+floor_snap = 24.0
+sensor_origin = Vector2(0, 64)
+ledge_ahead = 64.0
+ledge_depth = 160.0
+wall_ahead = 100.0
+score_value = 300
+collision = NodePath("CollisionShape2D")
+hurt_area = NodePath("Hitbox")
+contact_area = NodePath("Hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1829418275]
+shape = SubResource("CapsuleShape2D_tx07j")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=109836339]
+position = Vector2(5.7263715e-06, 1.835823e-05)
+scale = Vector2(128.14516, 128.00003)
+mesh = SubResource("SphereMesh_yl2h5")
+texture = ExtResource("1_kysbq")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=836647209 groups=["hookable"]]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=833583095]
+shape = SubResource("CircleShape2D_yl2h5")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b2obcek61fivp"]
+
+[ext_resource type="Script" uid="uid://c6k0lror0t6xm" path="res://objects/enemies/main_classes/enemy_projectile.gd" id="1_5512v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ysx7b"]
+size = Vector2(100, 15)
+
+[node name="Area2D" type="Area2D" unique_id=1313345570 node_paths=PackedStringArray("hurt_area", "contact_area")]
+z_index = -1
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_5512v")
+speed = 800.0
+lifetime = 8.0
+destroyed_by_attack = false
+hurt_area = NodePath(".")
+contact_area = NodePath(".")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2055572965]
+position = Vector2(-50, -7.5)
+shape = SubResource("RectangleShape2D_ysx7b")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1426793151]
+offset_left = -100.0
+offset_top = -15.0
