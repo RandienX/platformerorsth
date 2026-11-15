@@ -113,7 +113,7 @@ func _setup_hookable() -> void:
 		return
 	# The hook detection can only see areas that are monitorable AND on a non-zero layer.
 	hurt_area.collision_layer |= hook_layer
-	hurt_area.monitorable = true
+	hurt_area.set_deferred("monitorable", true)
 	_set_hookable(true)
 
 ## The player treats "still in group hookable" as "still there", so leaving the group

@@ -1,3 +1,7 @@
+res://objects/CameraTrigger/
+res://objects/arena/
+res://resources/scripts/
+res://assets/tilesets/
 res://scenes/levels/
 res://scenes/menu/
 res://
@@ -9,7 +13,6 @@ res://objects/enemies/subscenes/
 res://objects/enemies/
 res://objects/CollisionTrigger/
 res://objects/spikes/
-res://assets/tilesets/
 res://objects/cash/
 res://assets/textures/player/
 res://assets/

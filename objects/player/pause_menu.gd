@@ -55,7 +55,8 @@ func _on_restart_pressed() -> void:
 	
 func _on_exit_pressed() -> void:
 	paused = false
-	get_tree().change_scene_to_file("res://scenes/menu/main_menu.tscn")
+	await get_tree().create_timer(0.1).timeout
+	get_tree().change_scene_to_file("res://scenes/menu/start_menu.tscn")
 
 func _on_resume_pressed() -> void:
 	paused = false

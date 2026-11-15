@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d2xotessndwrs"]
+
+[ext_resource type="Script" uid="uid://ci0uo55he2g3o" path="res://objects/CameraTrigger/camera_trigger.gd" id="1_po5fi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
+size = Vector2(64, 64)
+
+[node name="CameraTrigger" type="Area2D" unique_id=115683638 groups=["cam_trigger"]]
+monitoring = false
+script = ExtResource("1_po5fi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1267997330]
+shape = SubResource("RectangleShape2D_f1ai2")

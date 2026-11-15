@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b5voilaek1jxs"]
+
+[ext_resource type="Script" uid="uid://oc04rnbbueye" path="res://objects/arena/arena_door.gd" id="1_jvhlb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
+size = Vector2(64, 256)
+
+[node name="ArenaDoor" type="StaticBody2D" unique_id=793422989]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("1_jvhlb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=803441703]
+shape = SubResource("RectangleShape2D_f1ai2")
+
+[node name="ColorRect" type="ColorRect" parent="CollisionShape2D" unique_id=1829427060]
+offset_left = -32.0
+offset_top = -128.0
+offset_right = 32.0
+offset_bottom = 128.0
+color = Color(0.43134022, 0.43134025, 0.43134025, 1)

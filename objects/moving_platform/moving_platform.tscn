@@ -1,14 +1,10 @@
-[gd_scene format=4 uid="uid://bvvxuxo0vh6n2"]
+[gd_scene format=3 uid="uid://bvvxuxo0vh6n2"]
 
 [ext_resource type="Script" uid="uid://dkdl7y8tg1inh" path="res://objects/moving_platform/moving_platform.gd" id="1_a1qff"]
 [ext_resource type="Script" uid="uid://c1p6nyo53ywnu" path="res://resources/scripts/moving_platform_instruction.gd" id="2_l35y3"]
 [ext_resource type="TileSet" uid="uid://cvbyamlb15gem" path="res://assets/tilesets/test_level.tres" id="3_e7d6h"]
 
 [sub_resource type="Curve2D" id="Curve2D_vtg18"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 400, 1, 0, 0, 0, 0, 369, -150, 0, 0, 0, 0, 275, -291, 0, 0, 0, 0, 146, -374, 0, 0, 0, 0, 0, -400, 0, 0, 0, 0, -140, -376, 0, 0, 0, 0, -255, -307, 0, 0, 0, 0, -361, -174, 0, 0, 0, 0, -400, 2, 0, 0, 0, 0, -373, 145, 0, 0, 0, 0, -291, 278, 0, 0, 0, 0, -162, 366, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 151, 367, 0, 0, 0, 0, 281, 285, 0, 0, 0, 0, 376, 138, 0, 0, 0, 0, 400, 2)
-}
-point_count = 17
 
 [sub_resource type="Resource" id="Resource_xkryw"]
 script = ExtResource("2_l35y3")
@@ -19,22 +15,21 @@ metadata/_custom_type_script = "uid://c1p6nyo53ywnu"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
 size = Vector2(224, 130)
 
-[node name="MovingPlatform4" type="Path2D" unique_id=1090078833]
+[node name="MovingPlatform4" type="Path2D" unique_id=1090078833 groups=["moving_platform"]]
 curve = SubResource("Curve2D_vtg18")
 script = ExtResource("1_a1qff")
 movement_array = Array[ExtResource("2_l35y3")]([SubResource("Resource_xkryw")])
 beginning_wait_time = 1.5
 
 [node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=1353346800]
-position = Vector2(400, 1)
 rotates = false
 loop = false
 
 [node name="Tileset" type="TileMapLayer" parent="PathFollow2D" unique_id=2103552538]
-tile_map_data = PackedByteArray("AAABAAAAAAAJAAIAAgABAP//AAAJAAIAAAAAAAAAAAAIAAIAAwAAAP//AAAIAAIAAAD//wAAAAAIAAIAAwD/////AAAIAAIAAAD+/wAAAAAJAAIAAQD+////AAAJAAIAAwD//wEAAAAAAAYAAAAAAAEAAAARAAYAAAA=")
 tile_set = ExtResource("3_e7d6h")
 
 [node name="Area2D" type="Area2D" parent="PathFollow2D/Tileset" unique_id=604137892]
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Tileset/Area2D" unique_id=2135796987]
 z_index = 1

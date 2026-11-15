@@ -18,6 +18,7 @@ extends Area2D
 
 var _prev := Vector2.ZERO
 var _has_prev := false
+var _checked := false
 var _shape_node: CollisionShape2D
 
 func _ready() -> void:
@@ -39,6 +40,12 @@ func _physics_process(_delta: float) -> void:
 	if player == null or not is_instance_valid(player):
 		_has_prev = false
 		return
+	
+	if not _checked:
+		_checked = true
+		var ow = player.get("one_way_layer")
+		if ow != null and (ow == left_layer or ow == right_layer or ow in optional_layer_removal):
+			push_warning("%s: layer %d is the player's one-way platform layer. Pick another layer for one of them." % [get_path(), ow])
 	
 	var now := player.global_position
 	if _has_prev and _prev.distance_to(now) <= max_travel_per_frame:

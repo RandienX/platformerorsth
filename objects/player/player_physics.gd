@@ -19,12 +19,12 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 @export var top_speed := 18.0
 @export var max_ground_speed := 25.0
 @export var slope_factor := 0.15
-@export var roll_friction := 0.07
-@export var roll_deceleration := 0.125
+@export var roll_friction := 0.125
+@export var roll_deceleration := 0.1
 @export var roll_slope_up := 0.1
 @export var roll_slope_down := 0.35
 @export var slide_min_speed := 2.0
-@export var fall_threshold := 3.5        ## below this speed steep slopes make you slip/fall
+@export var fall_threshold := 5.5        ## below this speed steep slopes make you slip/fall
 @export var slip_min_angle := 35.0       ## degrees
 @export var control_lock_frames := 30
 @export var hitbox_lock_frames := 90
@@ -40,7 +40,7 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 @export var steep_friction := 0.005              ## mild friction on steep surfaces
 # --- Air physics ------------------------------------------------------------
 @export_group("Air")
-@export var air_acceleration := 0.08
+@export var air_acceleration := 0.1
 @export var gravity := 0.4
 @export var jump_force := 16.0
 @export var jump_release_speed := 8.0
@@ -51,9 +51,9 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 @export var crouch_boost_base_speed := 20.0
 @export var crouch_boost_increment := 25.0    ## percent added to crouch boost speedup from value from crouch_boost_speed to max_charge per charge
 @export var crouch_boost_max_charge := 45.0
-@export var attack_boost := 15.0
-@export var mini_attack_boost := 1.5
-@export var dive_boost := 7.0
+@export var attack_boost := 6.0
+@export var mini_attack_boost := 0.5
+@export var max_dive_boost := 5.0
 @export var stomp_fall_speed := 45.0
 
 # --- Collision --------------------------------------------------------------
@@ -64,14 +64,27 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 @export var push_radius := 20.0
 @export var step_size := 8.0                   ## max pixels moved per sub-step (anti-tunnelling)
 @export var max_sensor_angle_diff := 30.0      ## deg: max gap between line angle and the closest surface normal
-@export var max_angle_change := 75.0           ## deg: larger jumps count as "no floor"
-@export var wall_climb_angle := 75.0           ## surfaces up to this angle are run onto, not treated as walls
+@export var max_angle_change := 55.0           ## deg: larger jumps count as "no floor"
+@export var wall_climb_angle := 55.0           ## surfaces up to this angle are run onto, not treated as walls
+
+@export_group("Moving Platforms")
+@export var platform_momentum_keep := 1.0      ## fraction of the platform's motion you keep when you jump / run off it (1.0 = fully physical)
+@export var max_platform_momentum := 30.0
 
 @export_group("Squish")
 @export var squish_enabled := true
-@export var squish_tolerance := 0.75           ## fraction of the body that must still fit between two solids; below this you are crushed (lower = more forgiving)
-@export var squish_grace_frames := 4           ## frames you must stay pinched before dying (filters one-frame blips)
+@export var squish_tolerance := 0.75           ## fraction of the body that must still fit between two solids; below this you are crushed (lower = more forgiving, keep < 1)
+@export var squish_grace_frames := 6           ## frames you must stay pinched before dying (filters one-frame blips)
 @export var squish_from_static := false        ## false: only moving platforms / nodes in group "crusher" can squish you. true: ANY pinch kills (also kills you if you get stuck in the level)
+@export var squish_escape_distance := 48.0     ## px: if a free spot exists this close you are shoved there instead of crushed (edge clipping)
+@export var squish_escape_step := 2.0          ## px between escape tests (smaller = more precise, more queries)
+
+@export_group("One-Way Platforms")
+@export var one_way_enabled := true
+@export_range(1, 32) var one_way_layer := 4    ## physics layer of the one-way tilemap. Don't use a layer MaskSetter swaps.
+@export var one_way_drop_action := &"null"     ## optional input action to fall through a platform
+@export var one_way_drop_frames := 8           ## frames one-way platforms are ignored after dropping through
+@export var one_way_snap_pixels := 24.0        ## snap pixels to one way platform
 
 @export_group("Debug")
 @export var debug_draw := false
@@ -81,8 +94,15 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 var gsp := 0.0                  ## ground speed
 var vel := Vector2.ZERO         ## air velocity
 var ground_angle := 0.0         ## radians; 0 = flat, +ve = surface descends to the right
-var floor_collider: Node2D = null
+## What we are standing on. Setting it also chooses who carries us (see "Moving Platforms").
+var floor_collider: Node2D = null:
+	set(value):
+		floor_collider = value
+		_set_carrier(value)
+## Motion the carrier gave us this tick, in px/frame (same units as vel and gsp).
 var platform_velocity := Vector2.ZERO
+var _carrier: Node2D = null
+var _carrier_xform := Transform2D.IDENTITY
 var grounded := false
 var sliding := false
 var attacking := false
@@ -102,7 +122,15 @@ var state: State = State.AIR
 var dead := false               ## true from the moment of death until respawn
 var squished := false           ## crushed: physics frozen until die() respawns us
 var _squish_frames := 0
+var _squish_shape := RectangleShape2D.new()
 var squish_base_scale := Vector2.ONE
+var on_one_way := false         ## true while standing on a one-way platform
+var _one_way_ignore := 0        ## frames left in which one-way platforms are ignored (drop-through)
+
+var static_camera: bool = false
+var static_camera_position: Vector2 = Vector2.ZERO
+var static_camera_scale: Vector2 = Vector2(0.66, 0.66)
+var cam_time: float = 0.0
 
 var height_radius: float = 64.0
 var direction := 0.0
@@ -147,7 +175,7 @@ var hook_miss_returning := false
 @export var hook_shot_impact_frame_timer: int = 20 ## await frames upon impact
 @export var hook_shot_speed := 64.0               ## px/frame the hook tip travels
 @export var hook_shot_pull_speed := 32.0          ## px/frame the player is pulled toward the target
-@export var hook_shot_miss_length := 360.0        ## px a target-less hook flies out before retracting
+@export var hook_shot_miss_length := 400.0        ## px a target-less hook flies out before retracting
 @export var hook_shot_momentum_keep := 1.2        
 @export var hook_shot_bounce_factor := 0.5        ## bounce speed as a fraction of pull speed
 @export var hook_shot_bounce_up := 6.0            ## small hop when bouncing
@@ -164,7 +192,8 @@ var score: int = 0
 @export var max_health: int = 3 
 var health: int = 3
 
-@export var camera_max_distance: float = 120.0
+@export var camera_max_distance: float = 240.0
+@export var camera_max_scale: float = 0.5
 
 func _ready() -> void:
 	height_radius = stand_height_radius
@@ -178,11 +207,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_update_camera(delta)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if squished:
+		_ride_carrier()
 		_update_state()
 		hp_bar.value = health
 		return
+	
+	if _one_way_ignore > 0:
+		_one_way_ignore -= 1
 	
 	direction = signf(Input.get_axis("left", "right"))
 	INPUT_DOWN = Input.is_action_pressed("down")
@@ -190,16 +223,7 @@ func _physics_process(delta: float) -> void:
 	INPUT_ATTACK = Input.is_action_just_pressed("attack")
 	INPUT_JUMP = Input.is_action_just_pressed("jump")
 	
-	platform_velocity = Vector2.ZERO
-	if grounded and floor_collider and is_instance_valid(floor_collider):
-		var parent = floor_collider.get_parent()
-		if parent and parent.get_parent() is Path2D:
-			var moving_platform = parent.get_parent() as Path2D
-			if moving_platform.has_method("get_current_velocity"):
-				platform_velocity = moving_platform.get_current_velocity()
-	
-	if grounded:
-		_carry_with_platform(platform_velocity * delta)
+	_ride_carrier()   # move with whatever we stand on, before anything else this tick
 	_resolve_walls()
 	
 	if grounded:
@@ -224,6 +248,9 @@ func _physics_process(delta: float) -> void:
 # =============================================================================
 #region Ground Movement
 func _ground_tick(jump_pressed: bool) -> void:
+	if on_one_way and not crouch_boosting and _drop_pressed():
+		_one_way_drop()
+		return
 	var locked := control_lock > 0
 	if locked:
 		control_lock -= 1
@@ -270,25 +297,19 @@ func _ground_tick(jump_pressed: bool) -> void:
 	var sin_a := sin(ground_angle)
 	var going_uphill := gsp != 0.0 and signf(gsp) != signf(sin_a)
 	
+	# Attack Logic
 	if not attacking and not crouching and not crouch_boosting and INPUT_ATTACK:
 		attacking = true
 		sliding = false
+		
+		var boost_type = attack_boost if gsp < max_ground_speed else mini_attack_boost
 		if sin_a != 0:
-			if gsp < max_ground_speed:
-				if going_uphill:
-					gsp = clamp(gsp + (attack_boost * dir * ((1 - sin_a) if sin_a > 0 else (1 + (-1 - sin_a)))), -max_ground_speed*0.66, max_ground_speed*0.66)
-				else:
-					gsp = clamp(gsp + (attack_boost * dir * ((1 + sin_a) if sin_a > 0 else (1 + (-1 - sin_a)))), -max_ground_speed*1.33, max_ground_speed*1.33)
+			if going_uphill:
+				gsp += (boost_type * dir * ((1 - sin_a) if sin_a > 0 else (1 + (-1 - sin_a)))) * 0.86
 			else:
-				if going_uphill:
-					gsp += mini_attack_boost * dir * ((1 - sin_a) if sin_a < 0 else (1 - (-1 - sin_a)))
-				else:
-					gsp += mini_attack_boost * dir * ((1 + sin_a) if sin_a < 0 else (1 + (-1 - sin_a)))
+				gsp += (boost_type * dir * ((1 + sin_a) if sin_a > 0 else (1 - (-1 - sin_a)))) * 1.1
 		else:
-			if gsp < max_ground_speed:
-				gsp = clamp(gsp + (attack_boost * dir), -max_ground_speed, max_ground_speed)
-			else:
-				gsp += mini_attack_boost * dir
+			gsp += boost_type * dir
 		attack_lock = attack_lock_frames
 	if not attacking and not sliding and not crouching and not crouch_boosting and INPUT_DOWN and (absf(gsp) >= slide_min_speed or steep_hold):
 		sliding = true
@@ -296,6 +317,8 @@ func _ground_tick(jump_pressed: bool) -> void:
 	# Slope factor
 	if sliding:
 		gsp += ((roll_slope_up if going_uphill else roll_slope_down) * sin_a + 0.01) * 1.5
+	elif crouching and angle_deg < slip_min_angle: #crouch jitter fix
+		gsp = 0.0
 	else:
 		gsp += slope_factor * sin_a + 0.005
 	
@@ -378,7 +401,7 @@ func _crouch_boost_tick(jump_pressed: bool) -> void:
 
 func _do_jump() -> void:
 	vel = Vector2.RIGHT.rotated(ground_angle) * gsp + Vector2.UP.rotated(ground_angle) * jump_force
-	vel += platform_velocity/100 #converting real velocity to my vel cuz i messed up a few days ago: 3.10.2026
+	vel += platform_velocity * platform_momentum_keep
 	floor_collider = null
 	grounded = false
 	ground_angle = 0.0
@@ -391,8 +414,8 @@ func _do_jump() -> void:
 	jumped.emit()
 
 func _leave_ground() -> void:
-	vel = Vector2.RIGHT.rotated(ground_angle) * gsp
-	vel += platform_velocity/100 #converting real velocity to my vel cuz i messed up a few days ago: 3.10.2026
+	vel = Vector2.RIGHT.rotated(ground_angle) * gsp * 0.75
+	vel += platform_velocity * platform_momentum_keep
 	floor_collider = null
 	grounded = false
 	ground_angle = 0.0
@@ -402,11 +425,13 @@ func _leave_ground() -> void:
 
 func _snap_to_floor() -> bool:
 	var reach := height_radius + minf(absf(gsp) + 4.0, 14.0)
-	var f := _sense_floor(ground_angle, reach)
+	var f := _sense_floor_ow(ground_angle, reach)
 	if f.is_empty():
 		floor_collider = null 
+		on_one_way = false
 		return false
 	
+	on_one_way = f.get("one_way", false)
 	floor_collider = f.get("collider") 
 	var new_angle: float = f["angle"]
 	var change := absf(rad_to_deg(angle_difference(ground_angle, new_angle)))
@@ -422,6 +447,7 @@ func _snap_to_floor() -> bool:
 #region Air Movement
 var hook_shot_started := false
 func _air_tick() -> void:
+	on_one_way = false
 	if direction != 0.0:
 		facing = int(direction)
 		if direction < 0.0 and vel.x > -top_speed:
@@ -440,18 +466,23 @@ func _air_tick() -> void:
 	if stomping:
 		sprite.rotation = PI/2 if facing > 0 else -PI/2
 	
-	if INPUT_ATTACK and INPUT_DOWN and !grounded and !diving and !stomping:
+	if INPUT_ATTACK and INPUT_DOWN and !grounded and !stomping:
 		stomping = true
 		vel.x = 0
 		vel.y = stomp_fall_speed
 	
 	if INPUT_ATTACK and !grounded and !diving and !stomping and !INPUT_DOWN:
 		diving = true
-		if vel.y < 1:
-			vel.x += abs(max((vel.y + 1), -5) * 2 + dive_boost) * direction
-			vel.y = -3
+		if sign(direction) == sign(vel.x):
+			vel.x += clampf(abs(min((vel.y + 1), -max_dive_boost/2) * 2), 0, max_dive_boost) * direction
+			vel.y -= 3
 		else:
-			vel.x += dive_boost * direction
+			if vel.y < 1:
+				vel.x = clampf(abs(min((vel.y + 1), -max_dive_boost/2) * 2), 0, max_dive_boost) * direction
+			else:
+				vel.x = max_dive_boost * direction
+			vel.y -= 3
+			
 			
 		attack_lock = dive_lock_frames
 		
@@ -461,6 +492,7 @@ func _air_tick() -> void:
 	
 	var steps := maxi(1, ceili(maxf(absf(vel.x), absf(vel.y)) / step_size))
 	for i in steps:
+		var prev_feet := global_position + Vector2.DOWN * height_radius
 		global_position += vel / steps
 		
 		if vel.x != 0.0 and _wall_blocked(Vector2(signf(vel.x), 0.0)):
@@ -469,7 +501,7 @@ func _air_tick() -> void:
 		if vel.y < 0.0 and _handle_ceiling():
 			return
 		
-		var f := _sense_floor(0.0, height_radius)
+		var f := _sense_floor_ow(0.0, height_radius, prev_feet)
 		if not f.is_empty() and _should_land(f):
 			_land(f)
 			return
@@ -485,6 +517,7 @@ func _should_land(f: Dictionary) -> bool:
 
 func _land(f: Dictionary) -> void:
 	floor_collider = f.get("collider")
+	on_one_way = f.get("one_way", false)
 	grounded = true
 	jumping = false
 	_refresh_hitbox()
@@ -527,7 +560,7 @@ func _handle_ceiling() -> bool:
 	
 	if absf(n.x) > 0.7071 and n.y > 0.1:
 		ground_angle = _angle_from_normal(n)
-		gsp = vel.dot(Vector2.RIGHT.rotated(ground_angle))
+		gsp = clampf(vel.dot(Vector2.RIGHT.rotated(ground_angle)), -max_ground_speed, max_ground_speed)
 		vel = Vector2.ZERO
 		grounded = true
 		jumping = false
@@ -542,18 +575,19 @@ func _handle_ceiling() -> bool:
 # SENSORS
 # =============================================================================
 #region Sensors
-func _ray(from: Vector2, to: Vector2) -> Dictionary:
-	var q := PhysicsRayQueryParameters2D.create(from, to, collision_mask)
+## `mask` < 0 means "use the player's collision_mask" (whatever MaskSetter last left it as).
+func _ray(from: Vector2, to: Vector2, mask: int = -1) -> Dictionary:
+	var q := PhysicsRayQueryParameters2D.create(from, to, collision_mask if mask < 0 else mask)
 	q.hit_from_inside = false
 	return get_world_2d().direct_space_state.intersect_ray(q)
 
 ## Two foot sensors cast "down" relative to `frame_angle`.
-func _sense_floor(frame_angle: float, reach: float) -> Dictionary:
+func _sense_floor(frame_angle: float, reach: float, mask: int = -1) -> Dictionary:
 	var down := Vector2.DOWN.rotated(frame_angle)
 	var side := Vector2.RIGHT.rotated(frame_angle)
 	var o := global_position
-	var ha := _ray(o - side * width_radius, o - side * width_radius + down * reach)
-	var hb := _ray(o + side * width_radius, o + side * width_radius + down * reach)
+	var ha := _ray(o - side * width_radius, o - side * width_radius + down * reach, mask)
+	var hb := _ray(o + side * width_radius, o + side * width_radius + down * reach, mask)
 	if ha.is_empty() and hb.is_empty():
 		return {}
 	var da := INF
@@ -578,6 +612,47 @@ func _sense_floor(frame_angle: float, reach: float) -> Dictionary:
 			angle = line_angle
 			
 	return {"point": closest_point, "angle": angle, "distance": minf(da, db), "collider": closest_collider}
+
+## --- One-way platforms ------------------------------------------------------
+## The one-way layer is NEVER written into collision_mask (MaskSetter owns that
+## value). Instead the floor sensors do a second query against only that layer,
+## and the result is used or ignored depending on the situation. Walls, ceiling,
+## hook and squish sensors keep using collision_mask, so they can't see it.
+func _one_way_mask() -> int:
+	return 1 << (one_way_layer - 1)
+
+## Floor sensing = solid floor (collision_mask) + one-way floor, whichever is closer.
+## `prev_feet` is the foot position before this move when airborne; leave it
+## as Vector2.INF when grounded. Adds "one_way": true to the result when it won.
+func _sense_floor_ow(frame_angle: float, reach: float, prev_feet := Vector2.INF) -> Dictionary:
+	var solid := _sense_floor(frame_angle, reach)
+	if not one_way_enabled or _one_way_ignore > 0 and ground_angle == 0:
+		return solid
+	var ow := _sense_floor(frame_angle, reach, _one_way_mask())
+	if ow.is_empty() or not _one_way_accepts(ow, prev_feet):
+		return solid
+	if not solid.is_empty() and float(solid["distance"]) <= float(ow["distance"]):
+		return solid
+	ow["one_way"] = true
+	return ow
+
+func _one_way_accepts(f: Dictionary, prev_feet: Vector2) -> bool:
+	var a: float = f["angle"]
+	if prev_feet != Vector2.INF:
+		# Airborne
+		var n := Vector2.UP.rotated(a)
+		return vel.y >= 0.0 and (prev_feet - (f["point"] as Vector2)).dot(n) >= -maxf(one_way_snap_pixels, 1.0)
+	# Grounded
+	var tol := maxf(minf(absf(gsp) + 5.0, 14.0), one_way_snap_pixels)
+	return float(f["distance"]) >= height_radius - tol
+
+func _drop_pressed() -> bool:
+	return InputMap.has_action(one_way_drop_action) and Input.is_action_just_pressed(one_way_drop_action)
+
+func _one_way_drop() -> void:
+	_one_way_ignore = one_way_drop_frames
+	_leave_ground()
+	vel.y = maxf(vel.y, 2.0)
 
 ## Moves with a platform in small sub-steps, running the wall sensors after each
 ## one, so a platform can't drag the player into or through geometry.
@@ -634,75 +709,157 @@ static func _angle_from_normal(n: Vector2) -> float:
 	return atan2(n.x, -n.y)
 #endregion
 # =============================================================================
+# MOVING PLATFORMS
+# =============================================================================
+#region Moving Platforms
+## "Virtual parenting": whatever we stand on (floor_collider) becomes our carrier. Each tick we
+## measure how far the carrier's transform moved since the last tick and apply that same change
+## to the player. It is what reparenting would do, minus the side effects of leaving the tree
+## (the Hitbox area re-fires area_entered, and a rotating PathFollow2D would spin the player).
+##
+## Only (transform_now * transform_before.inverse()) is ever applied, so the sum of all carries
+## equals the platform's real displacement no matter WHEN it moved (idle frame, physics frame,
+## before or after us). No velocity estimation, so no jitter and no double/zero carry frames.
+
+func _set_carrier(c: Node2D) -> void:
+	if c == _carrier:
+		return
+	_carrier = c
+	_carrier_xform = c.global_transform if c != null else Transform2D.IDENTITY   # re-baseline: no carry on the switch frame
+
+func _ride_carrier() -> void:
+	platform_velocity = Vector2.ZERO
+	if _carrier == null:
+		return
+	if not is_instance_valid(_carrier) or not _carrier.is_inside_tree():
+		_carrier = null
+		return
+	var now := _carrier.global_transform
+	if now == _carrier_xform:
+		return                                   # static floor or a platform that is standing still
+	var moved := now * _carrier_xform.affine_inverse()
+	_carrier_xform = now
+	var carry := moved * global_position - global_position
+	platform_velocity = carry.limit_length(max_platform_momentum)
+	if squished:
+		global_position += carry                 # the corpse stays pinned in whatever crushed it
+		return
+	if grounded:
+		ground_angle = wrapf(ground_angle + moved.get_rotation(), -PI, PI)   # tilting/spinning platforms
+	_carry_with_platform(carry)
+#endregion
+# =============================================================================
 # SQUISH
 # =============================================================================
 #region Squish
-## Dies when solids close in from opposite sides. Runs once per frame, after all
-## movement and wall-pushing has been resolved.
+## Crushed = "the body overlaps a solid that is allowed to squish us, and there is no free spot
+## nearby to be shoved to". Runs once per tick, after all movement and wall-pushing.
+##
+##   1. Probe: a box shaped like the body (push_radius x height_radius, rotated with the surface,
+##      shrunk to squish_tolerance) is tested against the world with a real shape query.
+##   2. Overlap with a mover (moving platform / group "crusher" / anything if squish_from_static),
+##      or overlap with anything while we are riding a mover into it (lift into a ceiling).
+##   3. Look for the nearest free spot within squish_escape_distance. Found: shove the player
+##      there (edge clipping, getting pushed aside). Not found: pinched.
+##   4. Pinched for squish_grace_frames in a row = dead.
+
+const _ESCAPE_DIRS := [
+	Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0),
+	Vector2(-0.7071, -0.7071), Vector2(0.7071, -0.7071), Vector2(-0.7071, 0.7071), Vector2(0.7071, 0.7071),
+]
+
 func _check_squish() -> void:
 	if not squish_enabled or dead:
+		_squish_frames = 0
 		return
-	var a := ground_angle if grounded else 0.0
-	var o := global_position
-	var pinch := 0   # 0 = free, 1 = squeezed from the sides, 2 = squeezed top/bottom
-	
-	# Centre inside a solid: a crusher moved too fast for the rays to see it.
-	var inside := _solid_at_centre()
-	if inside != null and (squish_from_static or _is_moving_solid(inside)):
-		_squish_death(false)
+	var angle := ground_angle if grounded else 0.0
+	var hits := _squish_overlaps(global_position, angle)
+	if hits.is_empty():
+		_squish_frames = 0
 		return
-	
-	# Sideways: a wall on each side with less room than the body needs.
-	var side := Vector2.RIGHT.rotated(a)
-	var wl := _wall_hit(-side)
-	var wr := _wall_hit(side)
-	if not wl.is_empty() and not wr.is_empty():
-		var gap_x := o.distance_to(wl["position"] as Vector2) + o.distance_to(wr["position"] as Vector2)
-		if gap_x < 2.0 * push_radius * squish_tolerance and _counts_for_squish(wl["collider"], wr["collider"]):
-			pinch = 1
-	
-	# Top/bottom: same idea along the surface normal (works on slopes and loops).
-	if pinch == 0:
-		var fl := _sense_floor(a, height_radius)
-		var ce := _sense_floor(a + PI, height_radius)
-		if not fl.is_empty() and not ce.is_empty():
-			var gap_y: float = fl["distance"] + ce["distance"]
-			if gap_y < 2.0 * height_radius * squish_tolerance and _counts_for_squish(fl["collider"], ce["collider"]):
-				pinch = 2
-	
-	_squish_frames = _squish_frames + 1 if pinch != 0 else 0
+
+	var culprit: Object = null
+	for h in hits:
+		if squish_from_static or _is_moving_solid(h["collider"]):
+			culprit = h["collider"]
+			break
+	if culprit == null and is_instance_valid(_carrier) and _is_moving_solid(_carrier):
+		culprit = _carrier                       # carried into something solid
+	if culprit == null:
+		_squish_frames = 0                       # only static geometry: not our business
+		return
+
+	var escape = _squish_find_escape(angle)      # Vector2, or null when boxed in
+	if escape != null:
+		global_position = escape
+		_squish_frames = 0
+		return
+
+	_squish_frames += 1
+	_dbg("pinched %d/%d by %s" % [_squish_frames, squish_grace_frames, culprit])
 	if _squish_frames >= squish_grace_frames:
-		_squish_death(pinch == 1)
+		_squish_death(culprit)
 
-func _counts_for_squish(c1: Object, c2: Object) -> bool:
-	return squish_from_static or _is_moving_solid(c1) or _is_moving_solid(c2)
-
-## Moving platform (same Path2D layout the platform carry uses) or anything in group "crusher".
-func _is_moving_solid(collider: Object) -> bool:
-	var node := collider as Node
-	if node == null or not is_instance_valid(node):
-		return false
-	if node.is_in_group("crusher"):
-		return true
-	var follower := node.get_parent()
-	var path := follower.get_parent() if follower else null
-	return path is Path2D and path.has_method("get_current_velocity")
-
-func _solid_at_centre() -> Object:
-	var q := PhysicsPointQueryParameters2D.new()
-	q.position = global_position
+## Everything the body box overlaps at `at`.
+func _squish_overlaps(at: Vector2, angle: float) -> Array[Dictionary]:
+	_squish_shape.size = Vector2(push_radius, height_radius) * 2.0 * minf(squish_tolerance, 0.95)
+	var q := PhysicsShapeQueryParameters2D.new()
+	q.shape = _squish_shape
+	q.transform = Transform2D(angle, at)
 	q.collision_mask = collision_mask
 	q.exclude = [get_rid()]
-	var r := get_world_2d().direct_space_state.intersect_point(q, 1)
-	return r[0]["collider"] if not r.is_empty() else null
+	return get_world_2d().direct_space_state.intersect_shape(q, 8)
 
-func _squish_death(horizontal: bool) -> void:
+## Closest position (smallest shove first) where the body box overlaps nothing, or null.
+func _squish_find_escape(angle: float):
+	var step := maxf(squish_escape_step, 0.5)
+	var d := step
+	while d <= squish_escape_distance:
+		for dir in _ESCAPE_DIRS:
+			var p: Vector2 = global_position + dir * d
+			if _squish_overlaps(p, angle).is_empty():
+				return p
+		d += step
+	return null
+
+## Moving platform (group "moving_platform", set by moving_platform.gd) or anything in group
+## "crusher". The group may be on the collider itself or on one of its parents.
+func _is_moving_solid(collider: Object) -> bool:
+	var node := collider as Node
+	for i in 4:
+		if node == null or not is_instance_valid(node):
+			return false
+		if node.is_in_group("crusher") or node.is_in_group("moving_platform"):
+			return true
+		node = node.get_parent()
+	return false
+
+## Free distance from the body centre along `dir` (0 when the centre is already inside a solid).
+func _squish_room(dir: Vector2, limit: float) -> float:
+	var q := PhysicsRayQueryParameters2D.create(global_position, global_position + dir * limit, collision_mask)
+	q.hit_from_inside = true
+	q.exclude = [get_rid()]
+	var hit := get_world_2d().direct_space_state.intersect_ray(q)
+	return limit if hit.is_empty() else global_position.distance_to(hit["position"])
+
+## Which way did the squeeze come from? Compare the remaining room on each axis with the body size.
+func _squish_is_horizontal() -> bool:
+	var a := ground_angle if grounded else 0.0
+	var side := Vector2.RIGHT.rotated(a)
+	var up := Vector2.UP.rotated(a)
+	var gap_h := _squish_room(-side, 256.0) + _squish_room(side, 256.0)
+	var gap_v := _squish_room(up, 256.0) + _squish_room(-up, 256.0)
+	return gap_h / (2.0 * push_radius) < gap_v / (2.0 * height_radius)
+
+func _squish_death(culprit: Object) -> void:
 	if dead:
 		return
-	_dbg("squished (%s)" % ("from the sides" if horizontal else "top/bottom"))
+	var horizontal := _squish_is_horizontal()
+	_dbg("squished (%s) by %s" % ["from the sides" if horizontal else "top/bottom", culprit])
 	_squish_frames = 0
 	_hook_cancel()
 	health = 0
+	Global.lives -= 1
 	squished = true
 	gsp = 0.0
 	vel = Vector2.ZERO
@@ -718,16 +875,18 @@ func _squish_death(horizontal: bool) -> void:
 	crouch_boosting = false
 	looking_up = false
 	hitbox.set_deferred("disabled", true)
-	
+	if culprit is Node2D and is_instance_valid(culprit):
+		_set_carrier(culprit as Node2D)          # the flattened body rides along with what crushed it
+
 	# Flatten the sprite along the squeeze axis.
 	if sprite:
 		squish_base_scale = sprite.scale
-		var flat := Vector2(0.2, 1.5) if horizontal else Vector2(1.5, 0.2)
-		create_tween().tween_property(sprite, "scale", squish_base_scale * flat, 0.12)
+		var flat := Vector2(0.2, 1.25) if horizontal else Vector2(1.25, 0.2)
+		create_tween().tween_property(sprite, "scale", squish_base_scale * flat, 0.08)
 	die()
 #endregion
 # =============================================================================
-# HOOK SHOT (homing-attack)
+# HOOK SHOT (homing_attack)
 # =============================================================================
 #region Hoot Shot
 ## Closest hookable inside the detection range with a clear line of sight.
@@ -1015,10 +1174,12 @@ func _update_state() -> void:
 		s = State.crouch_boost
 	elif grounded:
 		s = State.SLIDE if sliding else State.GROUND
-		s = State.ATTACK if attacking else State.GROUND
+		if attacking:
+			s = State.ATTACK
 	else:
 		s = State.JUMP if (jumping or sliding) else State.AIR
-		s = State.STOMP if stomping else State.AIR
+		if stomping:
+			s = State.STOMP
 	if s != state:
 		state = s
 		state_changed.emit(s)
@@ -1044,6 +1205,8 @@ func _update_visuals() -> void:
 	if hook_phase != HookPhase.NONE:
 		sprite.play("slide" if hook_phase >= HookPhase.PULL else "idle")
 		return
+	elif crouching or crouch_boosting:
+		sprite.play("crouch")
 	elif stomping and !grounded:
 		sprite.play("slide")
 	elif attacking and grounded:
@@ -1052,8 +1215,6 @@ func _update_visuals() -> void:
 		sprite.play("crouch")
 	elif sliding:
 		sprite.play("slide")
-	elif crouching or crouch_boosting:
-		sprite.play("crouch")
 	elif abs(gsp) > 0.1:
 		sprite.play("run")
 	elif vel.y > 0:
@@ -1065,9 +1226,22 @@ func _update_visuals() -> void:
 
 #region other
 func _update_camera(delta):
-	if abs(vel) > Vector2.ZERO:
-		var velocity_ratio = vel / max_ground_speed
-		camera.position = camera.position.lerp(velocity_ratio * camera_max_distance, 5.0 * delta)
+	var velocity_ratio = 0.01
+	if abs(vel) > Vector2.ZERO and !static_camera:
+		velocity_ratio = (vel / max_ground_speed) if !grounded else (Vector2(gsp, gsp) / max_ground_speed)
+		camera.position_smoothing_enabled = true
+		if abs(velocity_ratio) > Vector2(0.5, 0.5):
+			camera.position = camera.position.lerp(velocity_ratio * camera_max_distance * camera.scale.x, 5.0 * delta)
+		else:
+			camera.position = camera.position.lerp(Vector2(0,0), 5.0 * delta)
+	elif static_camera:
+		camera.position_smoothing_enabled = false
+		camera.global_position = camera.global_position.lerp(static_camera_position, cam_time)
+		camera.zoom = camera.zoom.move_toward(static_camera_scale, cam_time*delta)
+		await get_tree().create_timer(cam_time).timeout
+	elif !static_camera:
+		camera.zoom = camera.zoom.lerp(Vector2(0.66,0.66), 5.0 * delta)
+		camera.position = camera.position.lerp(Vector2(0,0), 5.0 * delta)
 
 func _draw() -> void:
 	if not debug_draw:
@@ -1081,32 +1255,42 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, 2.0, Color.YELLOW)
 
 var booster_latch = false
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_area_2d_area_entered(area: Area2D) -> void: #detector
 	if area.is_in_group("cash"):
 		cash += 1
 		score += 50
 		area.queue_free()
-	elif area.is_in_group("danger"):
-		score -= 250
-		player_hurt()
 	elif area.is_in_group("checkpoint") and area.global_position != start_pos:
 		score += 500
 		health = max_health
 		start_pos = area.global_position
 	elif area.is_in_group("booster"):
-		if grounded and area.vel_boost.y == 0:
+		if (grounded or sliding) and area.vel_boost.y == 0:
 			gsp += area.vel_boost.x
 		if abs(area.vel_boost.y) > 0 and !booster_latch:
 			booster_latch = true
 			if !grounded:
 				await landed
+			position.y -= 10
+			state = State.AIR
 			vel = Vector2(vel.x + area.vel_boost.x, -area.vel_boost.y)
-			position.y += 10
 			grounded = false
+			stomping = false
+			diving = false
 			booster_latch = false
 	elif area.is_in_group("death"):
 		health = 0
 		die()
+	elif area.is_in_group("cam_trigger"):
+		static_camera = false if area.exit_static else true
+		static_camera_position = area.cam_position
+		static_camera_scale = area.cam_scale
+		cam_time = area.cam_move_time
+		
+func _on_hitbox_damage(area: Area2D) -> void:
+	if area.is_in_group("danger"):
+		score -= 250
+		player_hurt()
 		
 func player_hurt():
 	if dead:
@@ -1144,6 +1328,7 @@ func die():
 	Global.respawn_enemies()
 	health = max_health
 	global_position = start_pos
+	_set_carrier(null)
 	set_collision_mask_value(1 ,true)
 	set_collision_mask_value(2 ,false)
 	if squished:

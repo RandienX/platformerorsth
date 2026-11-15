@@ -31,14 +31,12 @@ var _cooldown := 1.0
 var _firing := false
 var _token := 0                            ## invalidates a running fire sequence on death/respawn
 
-
 func _enemy_ready() -> void:
 	facing = start_facing
 	if muzzle == null:
 		muzzle = get_node_or_null("Muzzle") as Marker2D
 	_face_sprite(facing, sprite_faces_right)
 	_play("idle")
-
 
 func _enemy_tick(delta: float) -> void:
 	if use_gravity:
@@ -66,7 +64,6 @@ func _enemy_tick(delta: float) -> void:
 		return
 	_fire_sequence()
 
-
 func _fire_sequence() -> void:
 	_firing = true
 	var token := _token
@@ -84,7 +81,6 @@ func _fire_sequence() -> void:
 	_cooldown = fire_interval
 	_firing = false
 
-
 func _shoot() -> void:
 	if projectile_scene == null or get_parent() == null:
 		return
@@ -100,21 +96,17 @@ func _shoot() -> void:
 	if proj.has_method("launch"):
 		proj.call("launch", dir, projectile_speed)
 
-
 func _muzzle_position() -> Vector2:
 	return muzzle.global_position if muzzle != null else global_position
-
 
 func _has_line_of_sight(p: Player) -> bool:
 	var q := PhysicsRayQueryParameters2D.create(_muzzle_position(), p.global_position, collision_mask)
 	q.exclude = [get_rid(), p.get_rid()]
 	return get_world_2d().direct_space_state.intersect_ray(q).is_empty()
 
-
 func _on_died() -> void:
 	_token += 1
 	_firing = false
-
 
 func _on_respawn() -> void:
 	_token += 1

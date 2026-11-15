@@ -37,6 +37,8 @@ booster=""
 death=""
 hookable=""
 hook_head=""
+cam_trigger=""
+goal=""
 
 [input]
 
@@ -81,6 +83,8 @@ menu={
 2d_physics/layer_1="world"
 2d_physics/layer_2="player"
 2d_physics/layer_3="enemy"
+2d_physics/layer_4="one-way platforms"
+2d_physics/layer_5="decorative"
 2d_physics/layer_8="hook_shot_head"
 2d_physics/layer_9="hook_shot"
 

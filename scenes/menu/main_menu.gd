@@ -6,11 +6,12 @@ var button_index := 0
 var button_container_start_pos
 
 func _ready() -> void:
+	button_index = 0
 	button_container.position.y += 330
 	button_container_start_pos = button_container.position
 	button_changed.connect(button_move)
 
-func _unhandled_input(_event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("down"):
 		button_index = clampi(button_index + 1, 0, 4)
 		button_changed.emit()

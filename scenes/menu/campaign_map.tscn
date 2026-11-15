@@ -34,21 +34,41 @@ text = "Ranch"
 
 [node name="Label2" type="Label" parent="ColorRect/Button" unique_id=856568519]
 layout_mode = 0
-offset_left = 451.0
-offset_top = -248.0
-offset_right = 579.0
-offset_bottom = -203.0
+offset_left = 949.0
+offset_top = -118.0
+offset_right = 1077.0
+offset_bottom = -73.0
 theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
 theme_override_font_sizes/font_size = 32
 text = "Test LVL"
 
+[node name="Label4" type="Label" parent="ColorRect/Button" unique_id=50175277]
+layout_mode = 0
+offset_left = 1487.0
+offset_top = -150.0
+offset_right = 1615.0
+offset_bottom = -105.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Boss LVL"
+
+[node name="Label3" type="Label" parent="ColorRect/Button" unique_id=1585633843]
+layout_mode = 0
+offset_left = 456.0
+offset_top = -245.0
+offset_right = 584.0
+offset_bottom = -200.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Tutorial"
+
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=879230322]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
-offset_left = 704.0
-offset_top = 569.0
-offset_right = 764.0
-offset_bottom = 629.0
+offset_left = 1209.0
+offset_top = 703.0
+offset_right = 1269.0
+offset_bottom = 763.0
 color = Color(0.6894797, 0.50111645, 0.22689074, 1)
 
 [node name="Button" type="Button" parent="ColorRect2" unique_id=1871879169]
@@ -59,11 +79,17 @@ offset_bottom = 60.0
 [node name="ColorRect3" type="ColorRect" parent="." unique_id=1437109123]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
-offset_left = 1207.0
-offset_top = 703.0
-offset_right = 1267.0
-offset_bottom = 763.0
+offset_left = 709.0
+offset_top = 578.0
+offset_right = 769.0
+offset_bottom = 638.0
 color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+
+[node name="Button2" type="Button" parent="ColorRect3" unique_id=235898640]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 61.0
+offset_bottom = 60.0
 
 [node name="ColorRect4" type="ColorRect" parent="." unique_id=637756932]
 custom_minimum_size = Vector2(60, 60)
@@ -76,3 +102,4 @@ color = Color(0.6894797, 0.50111645, 0.22689074, 1)
 
 [connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ColorRect2/Button" to="." method="_on_button2_pressed"]
+[connection signal="pressed" from="ColorRect3/Button2" to="." method="_on_button_2_pressed"]
