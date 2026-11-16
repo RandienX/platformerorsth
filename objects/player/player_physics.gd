@@ -13,19 +13,19 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 # --- Ground physics ---------------------------------------------------------
 @export_category("Physics")
 @export_group("Ground")
-@export var acceleration_speed := 0.15
+@export var acceleration_speed := 0.2
 @export var deceleration_speed := 0.6
-@export var friction_speed := 0.25
-@export var top_speed := 18.0
-@export var max_ground_speed := 25.0
-@export var slope_factor := 0.15
-@export var roll_friction := 0.125
-@export var roll_deceleration := 0.1
-@export var roll_slope_up := 0.1
-@export var roll_slope_down := 0.35
+@export var friction_speed := 0.2
+@export var top_speed := 20.0
+@export var max_ground_speed := 20.0
+@export var slope_factor := 0.2
+@export var roll_friction := 0.15
+@export var roll_deceleration := 0.06
+@export var roll_slope_up := -0.02
+@export var roll_slope_down := 0.3
 @export var slide_min_speed := 2.0
-@export var fall_threshold := 5.5        ## below this speed steep slopes make you slip/fall
-@export var slip_min_angle := 35.0       ## degrees
+@export var fall_threshold := 4.5        ## below this speed steep slopes make you slip/fall at slip_min_angle (2x at 180 degrees)
+@export var slip_min_angle := 45.0       ## degrees
 @export var control_lock_frames := 30
 @export var hitbox_lock_frames := 90
 @export var attack_lock_frames := 45
@@ -35,37 +35,38 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 
 @export_group("Walls Drag")
 @export var steep_drag_start_angle := 45.0       ## degrees; drag begins past this angle
-@export var steep_uphill_drag_min := 0.02        ## speed lost per frame at start angle
+@export var steep_uphill_drag_min := 0.05        ## speed lost per frame at start angle
 @export var steep_uphill_drag_max := 0.15         ## speed lost per frame at 90 degrees
-@export var steep_friction := 0.005              ## mild friction on steep surfaces
+@export var steep_friction := 0.05              ## mild friction on steep surfaces
 # --- Air physics ------------------------------------------------------------
 @export_group("Air")
-@export var air_acceleration := 0.1
+@export var air_acceleration := 0.15
 @export var gravity := 0.4
 @export var jump_force := 16.0
 @export var jump_release_speed := 8.0
-@export var max_fall_speed := 30.0
+@export var max_fall_speed := 45.0
 
 # --- Slide/Attack --------------------------------------------------------------
 @export_group("Boosts")
-@export var crouch_boost_base_speed := 20.0
+@export var crouch_boost_base_speed := 18.0
 @export var crouch_boost_increment := 25.0    ## percent added to crouch boost speedup from value from crouch_boost_speed to max_charge per charge
-@export var crouch_boost_max_charge := 45.0
-@export var attack_boost := 6.0
-@export var mini_attack_boost := 0.5
+@export var crouch_boost_max_charge := 50.0
+@export var attack_boost := 0.6              ## percent of max_ground_speed - gsp added to gsp
+@export var min_atk_boost := 4.0            ## minimal atk boost in gsp
+@export var mini_attack_boost := 0.05         ## percent of max_ground_speed added to gsp over the limit
 @export var max_dive_boost := 5.0
-@export var stomp_fall_speed := 45.0
+@export var stomp_fall_speed := 60.0
 
 # --- Collision --------------------------------------------------------------
-@export_group("BallCollision")
+@export_group("Collision")
 @export var stand_height_radius := 64.0
 @export var ball_height_radius := 32.0
 @export var width_radius := 16.0
 @export var push_radius := 20.0
 @export var step_size := 8.0                   ## max pixels moved per sub-step (anti-tunnelling)
-@export var max_sensor_angle_diff := 30.0      ## deg: max gap between line angle and the closest surface normal
-@export var max_angle_change := 55.0           ## deg: larger jumps count as "no floor"
-@export var wall_climb_angle := 55.0           ## surfaces up to this angle are run onto, not treated as walls
+@export var max_sensor_angle_diff := 35.0      ## deg: max gap between line angle and the closest surface normal
+@export var max_angle_change := 45.0           ## deg: larger jumps count as "no floor"
+@export var wall_climb_angle := 45.0           ## surfaces up to this angle are run onto, not treated as walls
 
 @export_group("Moving Platforms")
 @export var platform_momentum_keep := 1.0      ## fraction of the platform's motion you keep when you jump / run off it (1.0 = fully physical)
@@ -77,7 +78,7 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 @export var squish_grace_frames := 6           ## frames you must stay pinched before dying (filters one-frame blips)
 @export var squish_from_static := false        ## false: only moving platforms / nodes in group "crusher" can squish you. true: ANY pinch kills (also kills you if you get stuck in the level)
 @export var squish_escape_distance := 48.0     ## px: if a free spot exists this close you are shoved there instead of crushed (edge clipping)
-@export var squish_escape_step := 2.0          ## px between escape tests (smaller = more precise, more queries)
+@export var squish_escape_step := 3.0          ## px between escape tests (smaller = more precise, more queries)
 
 @export_group("One-Way Platforms")
 @export var one_way_enabled := true
@@ -303,20 +304,24 @@ func _ground_tick(jump_pressed: bool) -> void:
 		sliding = false
 		
 		var boost_type = attack_boost if gsp < max_ground_speed else mini_attack_boost
+		var boost_amount = ((max_ground_speed - abs(gsp)) if boost_type == attack_boost else max_ground_speed) * boost_type
 		if sin_a != 0:
+			var bonus = max(boost_amount, min_atk_boost if boost_type == attack_boost else 0.0) * (direction + sin_a)
+			print(boost_amount, "    ", bonus)
 			if going_uphill:
-				gsp += (boost_type * dir * ((1 - sin_a) if sin_a > 0 else (1 + (-1 - sin_a)))) * 0.86
+				gsp += bonus * 1.5
 			else:
-				gsp += (boost_type * dir * ((1 + sin_a) if sin_a > 0 else (1 - (-1 - sin_a)))) * 1.1
+				gsp += bonus * 0.86
 		else:
-			gsp += boost_type * dir
+			gsp += max(boost_amount, min_atk_boost if boost_type == attack_boost else 0.0) * direction
 		attack_lock = attack_lock_frames
+	
 	if not attacking and not sliding and not crouching and not crouch_boosting and INPUT_DOWN and (absf(gsp) >= slide_min_speed or steep_hold):
 		sliding = true
 	
 	# Slope factor
 	if sliding:
-		gsp += ((roll_slope_up if going_uphill else roll_slope_down) * sin_a + 0.01) * 1.5
+		gsp += ((roll_slope_up if going_uphill else roll_slope_down) * sin_a + 0.01) * 1.2
 	elif crouching and angle_deg < slip_min_angle: #crouch jitter fix
 		gsp = 0.0
 	else:
@@ -325,8 +330,8 @@ func _ground_tick(jump_pressed: bool) -> void:
 	var slipping := locked and angle_deg >= slip_min_angle
 	
 	# Input, deceleration, friction
-	if not crouching and not crouch_boosting:
-		if not sliding and not attacking:
+	if not crouching and not crouch_boosting and not attacking:
+		if not sliding:
 			if dir != 0.0:
 				facing = int(dir)
 				if signf(gsp) == -dir:
@@ -348,7 +353,7 @@ func _ground_tick(jump_pressed: bool) -> void:
 				if signf(gsp) != -dir:
 					gsp = 0.0
 			gsp -= minf(absf(gsp), roll_friction) * signf(gsp)
-			if absf(gsp) < 0.5 and not steep_hold:
+			if (absf(gsp) < 0.5 and not steep_hold) or not INPUT_DOWN:
 				sliding = false
 	
 	if not sliding:
@@ -393,7 +398,7 @@ func _crouch_boost_tick(jump_pressed: bool) -> void:
 		crouch_boost_charge = minf(crouch_boost_charge + (crouch_boost_max_charge - crouch_boost_charge) * crouch_boost_increment, crouch_boost_max_charge)
 	if not INPUT_DOWN:
 		crouch_boosting = false
-		sliding = true
+		#sliding = true
 		gsp = (crouch_boost_base_speed + floorf(crouch_boost_charge) / 2.0) * facing
 		crouch_boost_charge = 0.0
 		_refresh_hitbox()
@@ -1028,7 +1033,6 @@ func _hook_tick() -> void:
 		
 		HookPhase.IMPACT:
 			vel = Vector2.ZERO
-			print(hook_frames)
 			hook_frames -= 1
 			if hook_frames <= 0:
 				_hook_resolve_impact()
@@ -1136,7 +1140,7 @@ func _steep_blend(angle_deg: float) -> float:
 		return 0.0
 	
 	var span := maxf(90.0 - steep_drag_start_angle, 0.001)
-	return clampf((angle_deg - steep_drag_start_angle) / span, 0.0, 1.0)
+	return clampf((angle_deg - steep_drag_start_angle) / span, 0.0, 2.0)
 
 func _steep_uphill_drag_at_angle(angle_deg: float) -> float:
 	var t := _steep_blend(angle_deg)
@@ -1227,11 +1231,11 @@ func _update_visuals() -> void:
 #region other
 func _update_camera(delta):
 	var velocity_ratio = 0.01
-	if abs(vel) > Vector2.ZERO and !static_camera:
-		velocity_ratio = (vel / max_ground_speed) if !grounded else (Vector2(gsp, gsp) / max_ground_speed)
+	if (abs(vel) > Vector2.ZERO or gsp > 0) and !static_camera:
+		velocity_ratio = (vel / max_ground_speed) if !grounded else (Vector2(gsp, velocity.y) / max_ground_speed)
 		camera.position_smoothing_enabled = true
 		if abs(velocity_ratio) > Vector2(0.5, 0.5):
-			camera.position = camera.position.lerp(velocity_ratio * camera_max_distance * camera.scale.x, 5.0 * delta)
+			camera.position = camera.position.lerp(velocity_ratio * camera_max_distance * camera.scale.x, 7.5 * delta)
 		else:
 			camera.position = camera.position.lerp(Vector2(0,0), 5.0 * delta)
 	elif static_camera:

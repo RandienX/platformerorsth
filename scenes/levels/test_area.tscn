@@ -19,6 +19,12 @@
 [ext_resource type="PackedScene" uid="uid://c70dgfiux6nem" path="res://objects/enemies/kamikaze_enemy.tscn" id="12_mfo43"]
 [ext_resource type="Script" uid="uid://b464wjlmgf5f3" path="res://curve_tile_placer.gd" id="18_u3xaa"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u3xaa"]
+size = Vector2(111.25, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mfo43"]
+size = Vector2(113.5, 4)
+
 [sub_resource type="Curve2D" id="Curve2D_3gtxf"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -512, 0, 0, 0, 0, 0, 0)
@@ -1327,9 +1333,17 @@ position = Vector2(117, 296)
 position = Vector2(13184, -256)
 scale = Vector2(8, 1)
 
+[node name="CollisionShape2D2" parent="spikes/Spike/Area2D" parent_id_path=PackedInt32Array(2114317107, 1243853672) index="0" unique_id=1435919660]
+position = Vector2(-3.625, -54)
+shape = SubResource("RectangleShape2D_u3xaa")
+
 [node name="Spike2" parent="spikes" unique_id=762205990 instance=ExtResource("4_1nhv1")]
 position = Vector2(14336, -256)
 scale = Vector2(8, 1)
+
+[node name="CollisionShape2D2" parent="spikes/Spike2/Area2D" parent_id_path=PackedInt32Array(762205990, 1243853672) index="0" unique_id=1435919660]
+position = Vector2(4.75, -54)
+shape = SubResource("RectangleShape2D_mfo43")
 
 [node name="Spike3" parent="spikes" unique_id=1427854489 instance=ExtResource("4_1nhv1")]
 position = Vector2(17344, -3968)
@@ -1496,7 +1510,7 @@ rotation = 1.5707964
 scale = Vector2(1, 0.66)
 left_layer = 2
 optional_layer_removal = Array[int]([1])
-required_vel = Vector2(0, -5)
+required_vel = Vector2(0, -2)
 
 [node name="CollisionTrigger13" parent="Triggers/CollisionChanger" unique_id=1551742745 instance=ExtResource("8_mhixo")]
 position = Vector2(23653, -3347)
@@ -1621,3 +1635,6 @@ clean_area = false
 fill_tile = Vector2i(11, 4)
 
 [connection signal="body_entered" from="Goal" to="." method="_on_goal_body_entered"]
+
+[editable path="spikes/Spike"]
+[editable path="spikes/Spike2"]
