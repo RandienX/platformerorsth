@@ -16,10 +16,10 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 # --- Ground physics ---------------------------------------------------------
 @export_category("Physics")
 @export_group("Ground")
-@export var acceleration_speed := 0.2
+@export var acceleration_speed := 0.25
 @export var deceleration_speed := 0.6
-@export var friction_speed := 0.2
-@export var top_speed := 20.0
+@export var friction_speed := 0.3
+@export var top_speed := 18.0
 @export var max_ground_speed := 20.0
 @export var slope_factor := 0.2
 @export var roll_friction := 0.15
@@ -51,11 +51,11 @@ enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 
 # --- Slide/Attack --------------------------------------------------------------
 @export_group("Boosts")
-@export var crouch_boost_base_speed := 18.0
+@export var crouch_boost_base_speed := 20.0
 @export var crouch_boost_increment := 25.0    ## percent added to crouch boost speedup from value from crouch_boost_speed to max_charge per charge
-@export var crouch_boost_max_charge := 50.0
-@export var attack_boost := 0.6              ## percent of max_ground_speed - gsp added to gsp
-@export var min_atk_boost := 4.0            ## minimal atk boost in gsp
+@export var crouch_boost_max_charge := 62.5
+@export var attack_boost := 0.75              ## percent of max_ground_speed - gsp added to gsp
+@export var min_atk_boost := 6.0            ## minimal atk boost in gsp
 @export var mini_attack_boost := 0.05         ## percent of max_ground_speed added to gsp over the limit
 @export var max_dive_boost := 5.0
 @export var stomp_fall_speed := 60.0
@@ -201,7 +201,7 @@ var hook_miss_returning := false
 @export var camera_zoom_smoothing := 1.0         ## how fast the camera zooms in/out
 @export var camera_static_min_time := 1.0        ## seconds: shortest allowed cam_trigger transition (so a trigger with cam_move_time 0 still glides)
 @export var camera_teleport_threshold := 600.0   ## px moved in one tick that counts as a teleport (not speed)
-
+ 
 var _measured_vel := Vector2.ZERO   ## real movement of the last physics tick, px/frame
 var _prev_physics_pos := Vector2.ZERO
 var _cam_vel := Vector2.ZERO        ## smoothed velocity the camera reacts to
@@ -230,9 +230,7 @@ func _ready() -> void:
 	Global.player = self
 	
 	_prev_physics_pos = global_position
-	_cam_center = global_position
 	_cam_zoom = camera_base_zoom
-	_interpolated = ProjectSettings.get_setting("physics/common/physics_interpolation", false)
 	if camera:
 		# The camera is driven only through offset/zoom (neither is part of the node's
 		# transform, so physics interpolation keeps working), and smoothed by us
@@ -246,8 +244,16 @@ func _ready() -> void:
 		hook_shot_detection_range.monitoring = true
 		hook_shot_detection_range.collision_mask |= hook_target_layer
 
+var toggle_ui := false
 func _process(delta: float) -> void:
 	_update_camera(delta)
+
+func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("see_ui"):
+		toggle_ui = !toggle_ui
+		$CanvasLayer/UI/MarginContainer/VBoxContainer/Time.visible = toggle_ui
+		$CanvasLayer/UI/MarginContainer/VBoxContainer/Score.visible = toggle_ui
+		$CanvasLayer/UI/MarginContainer/VBoxContainer/Cash.visible = toggle_ui
 
 func _physics_process(_delta: float) -> void:
 	_track_motion()
@@ -348,17 +354,19 @@ func _ground_tick(jump_pressed: bool) -> void:
 		attacking = true
 		sliding = false
 		
-		var boost_type = attack_boost if gsp < max_ground_speed else mini_attack_boost
-		var boost_amount = ((max_ground_speed - abs(gsp)) if boost_type == attack_boost else max_ground_speed) * boost_type
-		if sin_a != 0:
-			var bonus = max(boost_amount, min_atk_boost if boost_type == attack_boost else 0.0) * (direction + sin_a)
-			print(boost_amount, "    ", bonus)
-			if going_uphill:
-				gsp += bonus * 1.5
+		if direction != 0:
+			var boost_type = attack_boost if gsp < max_ground_speed else mini_attack_boost
+			var boost_amount = ((max_ground_speed - abs(gsp)) if boost_type == attack_boost else max_ground_speed) * boost_type
+			if sin_a != 0:
+				
+				var bonus = max(boost_amount, min_atk_boost if boost_type == attack_boost else 0.0) * (direction + sin_a)
+				print(boost_amount, "    ", bonus)
+				if going_uphill:
+					gsp = bonus * 1.5 + gsp if sign(direction) == sign(gsp) else max_ground_speed * attack_boost * (direction + sin_a)
+				else:
+					gsp = bonus * 0.86 + gsp if sign(direction) == sign(gsp) else max_ground_speed * attack_boost * (direction + sin_a)
 			else:
-				gsp += bonus * 0.86
-		else:
-			gsp += max(boost_amount, min_atk_boost if boost_type == attack_boost else 0.0) * direction
+				gsp = max(boost_amount, min_atk_boost if boost_type == attack_boost else 0.0) * direction + gsp if sign(direction) == sign(gsp) else max_ground_speed * attack_boost * direction
 		attack_lock = attack_lock_frames
 	
 	if not attacking and not sliding and not crouching and not crouch_boosting and INPUT_DOWN and (absf(gsp) >= slide_min_speed or steep_hold):
@@ -1278,23 +1286,23 @@ func _track_motion() -> void:
 	var d := global_position - _prev_physics_pos
 	_prev_physics_pos = global_position
 	_measured_vel = Vector2.ZERO if d.length() > camera_teleport_threshold else d
-
+ 
 ## Frame-rate independent smoothing factor: lerp(a, b, _damp(rate, delta)).
 static func _damp(rate: float, delta: float) -> float:
 	return 1.0 - exp(-rate * delta)
-
+ 
 ## Where the player is actually drawn this frame (same maths Godot uses to interpolate the sprite).
 func _visual_position() -> Vector2:
 	if _interpolated:
 		return _prev_physics_pos.lerp(global_position, Engine.get_physics_interpolation_fraction())
 	return global_position
-
+ 
 ## Starts a linear camera transition from wherever the camera is right now.
 func _camera_retarget() -> void:
 	_cam_start = _cam_center
 	_cam_start_zoom = camera.zoom
 	_cam_t = 0.0
-
+ 
 ## Call after teleporting the player (respawn, warp) so the camera doesn't swoosh across the level.
 func _camera_snap() -> void:
 	_measured_vel = Vector2.ZERO
@@ -1304,7 +1312,7 @@ func _camera_snap() -> void:
 	_cam_center = global_position
 	_cam_t = 1.0
 	reset_physics_interpolation()
-
+ 
 func _update_camera(delta: float) -> void:
 	if camera == null:
 		return
@@ -1378,7 +1386,6 @@ func _on_area_2d_area_entered(area: Area2D) -> void: #detector
 		static_camera_position = area.cam_position
 		static_camera_scale = area.cam_scale
 		cam_time = area.cam_move_time
-		_camera_retarget()
 		
 func _on_hitbox_damage(area: Area2D) -> void:
 	if area.is_in_group("danger"):
@@ -1407,10 +1414,9 @@ func player_hurt():
 	control_lock = 30
 	hitbox_lock = hitbox_lock_frames
 	hitbox.set_deferred("disabled", true)
+	player_hit.emit()
 	if health == 0:
 		die()
-	else:
-		player_hit.emit()
 	
 func die():
 	if dead:
