@@ -28,11 +28,13 @@ func _ready() -> void:
 	_setup_extras()
 	await get_tree().create_timer(0.2).timeout
 	$AnimationPlayer.play("on_creation")
+	position = Vector2.ZERO
 	visible = true
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") or event.is_action_pressed("attack"):
 		skip = true
+		$AnimationPlayer.advance(3)
 		if finished:
 			get_tree().change_scene_to_file("res://scenes/menu/campaign_map.tscn")
 		finished = true

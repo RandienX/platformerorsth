@@ -5,7 +5,7 @@
 [ext_resource type="TileSet" uid="uid://cvbyamlb15gem" path="res://assets/tilesets/test_level.tres" id="3_6733b"]
 [ext_resource type="PackedScene" uid="uid://dx48l63nmn0fy" path="res://objects/player/player.tscn" id="4_6fp8f"]
 [ext_resource type="PackedScene" uid="uid://cfaseh27cn3h" path="res://objects/goal.tscn" id="5_wwdu5"]
-[ext_resource type="Script" uid="uid://b464wjlmgf5f3" path="res://curve_tile_placer.gd" id="6_jhh7m"]
+[ext_resource type="Script" uid="uid://b464wjlmgf5f3" path="res://tools/old_builder.gd" id="6_jhh7m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u3xaa"]
 texture = ExtResource("2_i15nj")

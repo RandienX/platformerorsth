@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dm6linuiu5fb1" path="res://objects/CollisionTrigger/collision_trigger.tscn" id="2_3e81p"]
 [ext_resource type="PackedScene" uid="uid://d3s5emm56qqqg" path="res://objects/checkpoint.tscn" id="2_g7bfq"]
 [ext_resource type="Texture2D" uid="uid://drklm0nqct17h" path="res://assets/textures/level/tiles_test.png" id="2_iig34"]
+[ext_resource type="PackedScene" uid="uid://b40wlk80q74gq" path="res://objects/cash/cash.tscn" id="2_q462l"]
 [ext_resource type="PackedScene" uid="uid://c1r7ex6yef4o3" path="res://objects/spikes/spike.tscn" id="2_uu0hj"]
 [ext_resource type="TileSet" uid="uid://cvbyamlb15gem" path="res://assets/tilesets/test_level.tres" id="3_3e81p"]
 [ext_resource type="PackedScene" uid="uid://dresg68db87xp" path="res://objects/boost_pad/boost_pad.tscn" id="3_g7bfq"]
@@ -13,11 +14,12 @@
 [ext_resource type="Script" uid="uid://c1p6nyo53ywnu" path="res://resources/scripts/moving_platform_instruction.gd" id="5_irnc0"]
 [ext_resource type="PackedScene" uid="uid://cgxx3bkqlmdkl" path="res://objects/arena/arena_trigger.tscn" id="10_4o3hj"]
 [ext_resource type="Script" uid="uid://c8qffyv7r2dpj" path="res://resources/scripts/wave.gd" id="11_uy53l"]
-[ext_resource type="Script" uid="uid://b3uu7yshcw5mh" path="res://level_builder.gd" id="12_84vya"]
+[ext_resource type="Script" uid="uid://b3uu7yshcw5mh" path="res://tools/level_builder.gd" id="12_84vya"]
 [ext_resource type="PackedScene" uid="uid://b8tfk0ovnop2t" path="res://objects/breakable_wall.tscn" id="12_l8ohl"]
 [ext_resource type="PackedScene" uid="uid://d2xotessndwrs" path="res://objects/CameraTrigger/camera_trigger.tscn" id="13_uy53l"]
 [ext_resource type="Script" uid="uid://d0dp0nkx15xbf" path="res://objects/arena/arena_trigger.gd" id="13_wr5d5"]
 [ext_resource type="PackedScene" uid="uid://b5voilaek1jxs" path="res://objects/arena/arena_door.tscn" id="14_q462l"]
+[ext_resource type="Script" uid="uid://8548omc5b6ux" path="res://tools/cash_placer.gd" id="17_q462l"]
 
 [sub_resource type="Curve2D" id="Curve2D_84vya"]
 _data = {
@@ -1558,6 +1560,12 @@ size = Vector2(704, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwe3r"]
 size = Vector2(64, 576)
+
+[sub_resource type="Curve2D" id="Curve2D_f1d85"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 19424, 1568, 0, 0, 0, 0, 20000, 1472, 0, 0, 0, 0, 20352, 1088, 0, 0, 0, 0, 20640, 640, 0, 0, 0, 0, 20512, 320, 0, 0, 0, 0, 20288, -32, 0, 0, 0, 0, 19904, -224, 0, 0, 0, 0, 19584, -320, 0, 0, 0, 0, 19264, -288, 0, 0, 0, 0, 19040, -128, 0, 0, 0, 0, 18848, 128, 0, 0, 0, 0, 18752, 416, 0, 0, 0, 0, 18752, 736, 0, 0, 0, 0, 18816, 992, 0, 0, 0, 0, 18880, 1248, 0, 0, 0, 0, 19072, 1408, 0, 0, 0, 0, 19232, 1568)
+}
+point_count = 17
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_84vya"]
 texture = ExtResource("2_iig34")
@@ -6293,6 +6301,928 @@ single Training Doll."
 
 [node name="cash" type="Node2D" parent="." unique_id=781249354]
 
+[node name="Node2D" type="Node2D" parent="cash" unique_id=275935400]
+
+[node name="Cash0" type="Area2D" parent="cash/Node2D" unique_id=336148987 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(9696, -1120)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash1" type="Area2D" parent="cash/Node2D" unique_id=1067708327 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(9537.012, -1120)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash2" type="Area2D" parent="cash/Node2D" unique_id=1667352418 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(9378.024, -1120)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash3" type="Area2D" parent="cash/Node2D" unique_id=574164473 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(9219.395, -1115.0251)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash7" type="Area2D" parent="cash/Node2D" unique_id=2050454780 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(8576, -992)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash8" type="Area2D" parent="cash/Node2D" unique_id=733442777 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(8435.002, -991.99994)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash9" type="Area2D" parent="cash/Node2D" unique_id=642924639 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(8276.014, -992)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash10" type="Area2D" parent="cash/Node2D" unique_id=368002850 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(8117.0264, -992)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash16" type="Area2D" parent="cash/Node2D" unique_id=2071542108 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(7174.6074, -846.12146)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash17" type="Area2D" parent="cash/Node2D" unique_id=342216329 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(7022.501, -801.43787)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash18" type="Area2D" parent="cash/Node2D" unique_id=259285447 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(6874.078, -744.5736)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash19" type="Area2D" parent="cash/Node2D" unique_id=1194037517 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(6781.0376, -618.816)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash20" type="Area2D" parent="cash/Node2D" unique_id=1513133235 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(6679.785, -502.48566)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash29" type="Area2D" parent="cash/Node2D" unique_id=906512069 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(5315.5664, -131.5664)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash30" type="Area2D" parent="cash/Node2D" unique_id=1499589327 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(5203.145, -19.14502)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash31" type="Area2D" parent="cash/Node2D" unique_id=1768603973 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(5060.1963, 47.617004)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash32" type="Area2D" parent="cash/Node2D" unique_id=1870750164 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(4911.8057, 104.69025)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash33" type="Area2D" parent="cash/Node2D" unique_id=637604485 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(4762.7344, 159.5238)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash43" type="Area2D" parent="cash/Node2D" unique_id=1472465602 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(3210.1216, 477.39734)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash44" type="Area2D" parent="cash/Node2D" unique_id=1066887098 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(3054.584, 510.29504)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash45" type="Area2D" parent="cash/Node2D" unique_id=828439295 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(2898.938, 542.7212)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash46" type="Area2D" parent="cash/Node2D" unique_id=1490581342 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(2743.292, 575.14746)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash47" type="Area2D" parent="cash/Node2D" unique_id=2047357168 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(2587.646, 607.5737)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash48" type="Area2D" parent="cash/Node2D" unique_id=86565424 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(2432, 640)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash4" type="Area2D" parent="cash/Node2D" unique_id=1025487464 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(10368, -288)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash5" type="Area2D" parent="cash/Node2D" unique_id=805071734 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(10368, -458.6667)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash6" type="Area2D" parent="cash/Node2D" unique_id=1327300498 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(10368, -629.3334)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash11" type="Area2D" parent="cash/Node2D" unique_id=1479787492 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(10368, -800)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash12" type="Area2D" parent="cash/Node2D" unique_id=375563637 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14304, 224)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash13" type="Area2D" parent="cash/Node2D" unique_id=1441100679 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14366.7295, 370.3694)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash14" type="Area2D" parent="cash/Node2D" unique_id=454307133 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14429.459, 516.7388)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash15" type="Area2D" parent="cash/Node2D" unique_id=235158767 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14492.189, 663.10815)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash21" type="Area2D" parent="cash/Node2D" unique_id=1307464215 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14554.919, 809.4774)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash22" type="Area2D" parent="cash/Node2D" unique_id=1503458328 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14617.648, 955.8468)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash23" type="Area2D" parent="cash/Node2D" unique_id=1594167264 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14706.305, 1081.953)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash24" type="Area2D" parent="cash/Node2D" unique_id=2014958114 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16358.141, 521.27026)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash25" type="Area2D" parent="cash/Node2D" unique_id=462184243 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16288.577, 602.879)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash26" type="Area2D" parent="cash/Node2D" unique_id=2019236508 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16173.262, 712.7031)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash27" type="Area2D" parent="cash/Node2D" unique_id=1252669935 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16057.946, 822.52734)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash28" type="Area2D" parent="cash/Node2D" unique_id=279707431 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(15942.631, 932.35156)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash34" type="Area2D" parent="cash/Node2D" unique_id=1408719281 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(15827.315, 1042.1758)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash35" type="Area2D" parent="cash/Node2D" unique_id=747385257 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(15712, 1152)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash36" type="Area2D" parent="cash/Node2D" unique_id=830125034 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(13888, -1152)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash37" type="Area2D" parent="cash/Node2D" unique_id=1728234423 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14028.913, -1232.5216)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash38" type="Area2D" parent="cash/Node2D" unique_id=1946530383 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14169.825, -1313.0432)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash39" type="Area2D" parent="cash/Node2D" unique_id=598897199 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14310.738, -1393.565)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash40" type="Area2D" parent="cash/Node2D" unique_id=84907251 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14451.651, -1474.0865)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash41" type="Area2D" parent="cash/Node2D" unique_id=1872483266 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(14596.67, -1544.9198)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash42" type="Area2D" parent="cash/Node2D" unique_id=80955768 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(15712, -1824)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash49" type="Area2D" parent="cash/Node2D" unique_id=525366742 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(15872, -1888)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash50" type="Area2D" parent="cash/Node2D" unique_id=1304508329 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16009.834, -1911.4556)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash51" type="Area2D" parent="cash/Node2D" unique_id=1540017040 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16160, -1888)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash52" type="Area2D" parent="cash/Node2D" unique_id=702729980 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(16320, -1824)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash53" type="Area2D" parent="cash/Node2D" unique_id=2032381576 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38272, 1856)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash54" type="Area2D" parent="cash/Node2D" unique_id=2034601738 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38272, 1984)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash55" type="Area2D" parent="cash/Node2D" unique_id=1582421862 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38368, 1856)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash56" type="Area2D" parent="cash/Node2D" unique_id=79329420 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38368, 1984)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash57" type="Area2D" parent="cash/Node2D" unique_id=1613651883 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38464, 1856)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash58" type="Area2D" parent="cash/Node2D" unique_id=676514698 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38464, 1984)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash59" type="Area2D" parent="cash/Node2D" unique_id=546639793 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38560, 1856)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash60" type="Area2D" parent="cash/Node2D" unique_id=1003908374 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38560, 1984)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash61" type="Area2D" parent="cash/Node2D" unique_id=1175604730 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38656, 1856)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash62" type="Area2D" parent="cash/Node2D" unique_id=1596014193 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(38656, 1984)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash63" type="Area2D" parent="cash/Node2D" unique_id=915083448 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37312, 2048)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash64" type="Area2D" parent="cash/Node2D" unique_id=1404061882 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37186.637, 2131.576)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash65" type="Area2D" parent="cash/Node2D" unique_id=1819268437 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37080.508, 2235.2402)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash66" type="Area2D" parent="cash/Node2D" unique_id=1254975758 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37015.004, 2367.9998)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash67" type="Area2D" parent="cash/Node2D" unique_id=1802582752 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37080.508, 2500.76)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash68" type="Area2D" parent="cash/Node2D" unique_id=963798382 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37186.637, 2604.4246)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash69" type="Area2D" parent="cash/Node2D" unique_id=1306982621 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(37312, 2688)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash70" type="Area2D" parent="cash/Node2D" unique_id=1567623545 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(34976, 4768)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash71" type="Area2D" parent="cash/Node2D" unique_id=974543031 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35114.668, 4682.6665)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash72" type="Area2D" parent="cash/Node2D" unique_id=429417982 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35253.332, 4597.3335)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash73" type="Area2D" parent="cash/Node2D" unique_id=1601034420 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35392, 4512)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash74" type="Area2D" parent="cash/Node2D" unique_id=1024619212 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35530.668, 4426.6665)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash75" type="Area2D" parent="cash/Node2D" unique_id=1259022381 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35669.332, 4341.3335)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash76" type="Area2D" parent="cash/Node2D" unique_id=2017237407 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35808, 4256)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash77" type="Area2D" parent="cash/Node2D" unique_id=1011622336 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35946.668, 4170.6665)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash78" type="Area2D" parent="cash/Node2D" unique_id=1182097786 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(36085.332, 4085.3335)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash79" type="Area2D" parent="cash/Node2D" unique_id=1448697035 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(36224, 4000)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash80" type="Area2D" parent="cash/Node2D" unique_id=467590281 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31136, 7588.5996)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash81" type="Area2D" parent="cash/Node2D" unique_id=1900000596 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31137.5, 7834.674)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash82" type="Area2D" parent="cash/Node2D" unique_id=1953628631 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31139, 8080.748)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash83" type="Area2D" parent="cash/Node2D" unique_id=1079261965 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31176.615, 8320.642)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash84" type="Area2D" parent="cash/Node2D" unique_id=1636851752 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31326.803, 8501.693)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash85" type="Area2D" parent="cash/Node2D" unique_id=1891676610 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31559.686, 8571.919)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash86" type="Area2D" parent="cash/Node2D" unique_id=1932978633 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31776.994, 8460.311)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash87" type="Area2D" parent="cash/Node2D" unique_id=2135398879 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31910.688, 8260.621)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash88" type="Area2D" parent="cash/Node2D" unique_id=330786386 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31929.877, 8017.6826)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash89" type="Area2D" parent="cash/Node2D" unique_id=1285027895 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31931.932, 7771.6123)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash90" type="Area2D" parent="cash/Node2D" unique_id=906641188 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31927.477, 7525.6846)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash91" type="Area2D" parent="cash/Node2D" unique_id=498507040 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31913.717, 7279.991)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash92" type="Area2D" parent="cash/Node2D" unique_id=1791048431 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31899.955, 7034.2974)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash93" type="Area2D" parent="cash/Node2D" unique_id=1585888714 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31857.854, 6793.941)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash94" type="Area2D" parent="cash/Node2D" unique_id=879263159 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31717.262, 6598.8315)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash95" type="Area2D" parent="cash/Node2D" unique_id=861151028 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31489.572, 6528)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash96" type="Area2D" parent="cash/Node2D" unique_id=1140981311 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31275.584, 6636.6606)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash97" type="Area2D" parent="cash/Node2D" unique_id=820934313 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31167.045, 6854.864)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash98" type="Area2D" parent="cash/Node2D" unique_id=2101737785 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31138.826, 7096.4507)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash99" type="Area2D" parent="cash/Node2D" unique_id=1079919901 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31137.326, 7342.525)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash100" type="Area2D" parent="cash/Node2D" unique_id=525675911 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(24960, 2432)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash101" type="Area2D" parent="cash/Node2D" unique_id=327877779 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(25205.145, 2409.2397)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash102" type="Area2D" parent="cash/Node2D" unique_id=1417034966 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(25440.912, 2350.3271)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash103" type="Area2D" parent="cash/Node2D" unique_id=1855993027 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(25664.791, 2247.8906)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash104" type="Area2D" parent="cash/Node2D" unique_id=1685165604 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(25888, 2144)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash105" type="Area2D" parent="cash/Node2D" unique_id=1233946099 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(28032, 2432)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash106" type="Area2D" parent="cash/Node2D" unique_id=454193096 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(28192, 2432)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash107" type="Area2D" parent="cash/Node2D" unique_id=944160637 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(28352, 2432)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash108" type="Area2D" parent="cash/Node2D" unique_id=568717688 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(28736, 1920)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash109" type="Area2D" parent="cash/Node2D" unique_id=454837826 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(28896, 1920)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash110" type="Area2D" parent="cash/Node2D" unique_id=647144673 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(29056, 1920)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash111" type="Area2D" parent="cash/Node2D" unique_id=1707089993 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(28960, 1600)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash112" type="Area2D" parent="cash/Node2D" unique_id=360312412 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(29120, 1600)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash113" type="Area2D" parent="cash/Node2D" unique_id=1251855263 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(29280, 1600)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash114" type="Area2D" parent="cash/Node2D" unique_id=1324613205 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(30400, 1920)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash115" type="Area2D" parent="cash/Node2D" unique_id=627020364 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(30549.14, 1932.8352)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash116" type="Area2D" parent="cash/Node2D" unique_id=1719055802 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(30692.912, 1910.5879)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash117" type="Area2D" parent="cash/Node2D" unique_id=1086523647 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(30772.975, 1785.4282)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash118" type="Area2D" parent="cash/Node2D" unique_id=1396472758 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(30859.486, 1664.9409)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash119" type="Area2D" parent="cash/Node2D" unique_id=1027432662 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(30987.545, 1590.7646)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash120" type="Area2D" parent="cash/Node2D" unique_id=1450694187 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(31136, 1600)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash124" type="Area2D" parent="cash/Node2D" unique_id=189826936 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35861.473, 737.7208)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash126" type="Area2D" parent="cash/Node2D" unique_id=1441945081 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35552.15, 655.4999)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash128" type="Area2D" parent="cash/Node2D" unique_id=1884624335 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35257.387, 779.8876)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash130" type="Area2D" parent="cash/Node2D" unique_id=86941301 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35099.03, 1056.7805)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash132" type="Area2D" parent="cash/Node2D" unique_id=2018751573 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35137.285, 1375.2039)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash134" type="Area2D" parent="cash/Node2D" unique_id=368648664 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35365.113, 1600.1558)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash136" type="Area2D" parent="cash/Node2D" unique_id=777602536 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35683.7, 1636.1504)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash138" type="Area2D" parent="cash/Node2D" unique_id=1789991081 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(35959.434, 1475.499)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash121" type="Area2D" parent="cash/Node2D" unique_id=160129259 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21063.668, 990.9114)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash122" type="Area2D" parent="cash/Node2D" unique_id=791373715 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21303.629, 958.16174)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash123" type="Area2D" parent="cash/Node2D" unique_id=1999211755 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21541.059, 911.4126)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash125" type="Area2D" parent="cash/Node2D" unique_id=941825757 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21753.322, 815.25586)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash127" type="Area2D" parent="cash/Node2D" unique_id=61823236 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21922.06, 642.0547)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash129" type="Area2D" parent="cash/Node2D" unique_id=398742836 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(22070.193, 450.45532)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash131" type="Area2D" parent="cash/Node2D" unique_id=1608079040 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(22207.73, 251.84406)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash133" type="Area2D" parent="cash/Node2D" unique_id=2094477212 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(22308.05, 35.713745)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash135" type="Area2D" parent="cash/Node2D" unique_id=986919469 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(22225.63, -191.20535)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash137" type="Area2D" parent="cash/Node2D" unique_id=1844448183 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(22111.504, -404.81375)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash139" type="Area2D" parent="cash/Node2D" unique_id=1630208385 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21971.482, -601.756)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash140" type="Area2D" parent="cash/Node2D" unique_id=149326864 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21759.318, -718.4505)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash141" type="Area2D" parent="cash/Node2D" unique_id=618647250 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21535.168, -810.15906)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash142" type="Area2D" parent="cash/Node2D" unique_id=1667131676 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21304.64, -883.0737)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash143" type="Area2D" parent="cash/Node2D" unique_id=818177487 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(21064.475, -869.4504)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash144" type="Area2D" parent="cash/Node2D" unique_id=741590711 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20845.5, -778.41595)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash145" type="Area2D" parent="cash/Node2D" unique_id=1086416842 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20672.924, -608.8938)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash146" type="Area2D" parent="cash/Node2D" unique_id=2081958603 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20548.168, -402.5494)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash147" type="Area2D" parent="cash/Node2D" unique_id=971085850 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20475.691, -174.23788)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash148" type="Area2D" parent="cash/Node2D" unique_id=556630198 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20455.4, 65.80725)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash149" type="Area2D" parent="cash/Node2D" unique_id=1421441340 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20486.365, 305.85083)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash150" type="Area2D" parent="cash/Node2D" unique_id=1090243626 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20547.086, 540.23755)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash151" type="Area2D" parent="cash/Node2D" unique_id=915052062 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20668.313, 742.9933)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Cash152" type="Area2D" parent="cash/Node2D" unique_id=1472532282 groups=["cash"] instance=ExtResource("2_q462l")]
+z_index = 5
+position = Vector2(20846.768, 906.4397)
+monitoring = false
+metadata/_cash_placer = true
+
+[node name="Node2D2" type="Node2D" parent="cash" unique_id=148850010]
+
 [node name="spikes" type="Node2D" parent="." unique_id=1399834966]
 
 [node name="StaticBody2D" parent="spikes" unique_id=1096697783 instance=ExtResource("2_uu0hj")]
@@ -6712,6 +7642,93 @@ exit_static = true
 
 [node name="enemies" type="Node2D" parent="." unique_id=838249702]
 
+[node name="builders" type="Node2D" parent="." unique_id=241701436]
+
+[node name="LevelBuilder" type="Polygon2D" parent="builders" unique_id=2034790168 node_paths=PackedStringArray("polygon_node", "extra_polygons", "tile_layer")]
+z_index = -1
+position = Vector2(-3584, -9024)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(30656, 11392, 30592, 11648, 30496, 12000, 29888, 12288, 29440, 12416, 28576, 12640, 27936, 12480, 27904, 12800, 28384, 13056, 28798.346, 13004.206, 28576, 13344, 28861.313, 13153.793, 28928, 13472, 29152, 12960, 29216, 13536, 29408, 13344, 29792, 13440, 29696, 13088, 30080, 13344, 30336, 13472, 30176, 13184, 30240, 12928, 30432, 13184, 30496, 12704, 30688, 13120, 30528, 13600, 30784, 13920, 31072, 13344, 30880, 12992, 31168, 12512, 31712, 12960, 31168, 13280, 31328, 13600, 31616, 13696, 31840, 13216, 32160, 13504, 32416, 13248, 32928, 13056, 33216, 12832, 33312, 12480, 33760, 12416, 34208, 12000, 34592, 12288, 34688, 12704, 35200, 12128, 35328, 13056, 36160, 12256, 36608, 12704, 36960, 12480, 37312, 13120, 37504, 13408, 37632, 12992, 37344, 12896, 37504, 12640, 37984, 12928, 38208, 12000, 37696, 11232, 37760, 10336, 37504, 10688, 36768, 11328, 36352, 11328, 35840, 11072, 35584, 10976, 35360, 10848, 35264, 10816, 35136, 10880, 35136, 11008, 35264, 11072, 35520, 11072, 35648, 11136, 35712, 11200, 35776, 11328, 35776, 11456, 35712, 11584, 35456, 11648, 34848, 11712, 33952, 11520, 33632, 10976, 33376, 10432, 33088, 10592, 33088, 11328, 32768, 11328, 32832, 11584, 32000, 11424, 32160, 11872, 31424, 11712, 31264, 11584, 30912, 11584)
+script = ExtResource("12_84vya")
+polygon_node = NodePath(".")
+extra_polygons = [NodePath("Polygon2D")]
+tile_layer = NodePath("../../main_collision")
+min_forward_ratio = 0.7
+start_candidates = 36
+roughness = 1.0
+point_roughness = PackedFloat32Array(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.3, 1, 1, 1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3)
+extra_point_roughness = Array[PackedFloat32Array]([PackedFloat32Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)])
+continuity = 1.0
+cap_top = Vector2i(8, 0)
+cap_right = Vector2i(10, 14)
+cap_bottom = Vector2i(8, 11)
+cap_left = Vector2i(7, 14)
+force_flag_tiles = true
+
+[node name="Polygon2D" type="Polygon2D" parent="builders/LevelBuilder" unique_id=158865347]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(-704, -96)
+polygon = PackedVector2Array(27904, 11424, 27392, 11040, 27392, 10912, 27680, 10976, 28096, 11360, 28672, 11584, 29600, 11616, 30080, 11424, 30208, 11360, 30560, 11424, 30560, 11584, 30240, 11520, 30016, 11712, 29888, 12032, 29728, 11872, 29440, 11936, 29472, 12160, 29344, 12320, 29152, 12096, 29184, 11936, 28768, 11872, 28576, 12032, 28288, 11680, 27840, 11616)
+
+[node name="LevelBuilder2" type="Polygon2D" parent="builders" unique_id=1485697679 node_paths=PackedStringArray("polygon_node", "extra_polygons", "tile_layer")]
+z_index = -1
+position = Vector2(640, -2)
+color = Color(1, 1, 1, 0.11764706)
+polygon = PackedVector2Array(40064, 194, 39680, 386, 47744, 386, 47744, -126, 45184, -126, 45184, -2366, 46144, -2366, 46144, -3006, 43392, -3006, 43392, -2430, 44160, -2430, 44160, 2, 42496, 2, 42496, -1022, 42240, -1022, 42112, -894, 41984, -638, 41984, 2, 40512, 2, 40512, 194)
+script = ExtResource("12_84vya")
+polygon_node = NodePath(".")
+extra_polygons = [NodePath("Polygon2D")]
+tile_layer = NodePath("../../collision_layer2")
+roughness = 1.0
+point_roughness = PackedFloat32Array(-1, -1, -1, -1, 0, 0, -1, -1, -1, -1, 0, 0, -1, -1, 0, 0, 0, 0, -1, -1)
+extra_point_roughness = Array[PackedFloat32Array]([PackedFloat32Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)])
+force_flag_tiles = true
+
+[node name="Polygon2D" type="Polygon2D" parent="builders/LevelBuilder2" unique_id=1494112030]
+position = Vector2(-704, -96)
+color = Color(1, 1, 1, 0.11764706)
+polygon = PackedVector2Array(40768, -286, 41216, -286, 41216, -1182, 41664, -1630, 43200, -1630, 43584, -1630, 43584, -798, 43712, -798, 43712, -1630, 43712, -1822, 43200, -1822, 43200, -2910, 42688, -2910, 42688, -1950, 41664, -1950, 41216, -2398, 41216, -3358, 41664, -3806, 44608, -3806, 44608, -3486, 45120, -3486, 45120, -3806, 46272, -3806, 46272, -3486, 46784, -3486, 46784, -3806, 47552, -3806, 47552, -2206, 47936, -2206, 47936, -606, 48448, -606, 48448, -1374, 49728, -1374, 50048, -1566, 51008, -1566, 51072, -1694, 51008, -1822, 50048, -1822, 48512, -2334, 48512, -4254, 49280, -4254, 49152, -4766, 48896, -5278, 48640, -5534, 48128, -5790, 47104, -6046, 42176, -6046, 41152, -5790, 40640, -5534, 40384, -5278, 40128, -4766, 40000, -4254, 40768, -4254)
+
+[node name="PlatformBuilder" type="Polygon2D" parent="builders" unique_id=2006515685 node_paths=PackedStringArray("polygon_node", "tile_layer")]
+z_index = -1
+position = Vector2(4640, -192)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(4160, -64, 4672, -64, 4672, 0, 4416, 64, 4160, 0)
+script = ExtResource("12_84vya")
+polygon_node = NodePath(".")
+tile_layer = NodePath("../../one_way_platforms")
+roughness = 0.0
+point_roughness = PackedFloat32Array(-1, -1, -1, -1, -1, -1, -1, 0.33, 0.33, 0.33, 0.33, 0.33, -1, -1, -1, -1, -1, -1, 0.33, 0.33, -1, -1, -1, -1, -1, -1, -1, -1, -1)
+force_flag_tiles = true
+
+[node name="DecorBuilder" type="Polygon2D" parent="builders" unique_id=2110116185 node_paths=PackedStringArray("polygon_node", "tile_layer")]
+self_modulate = Color(0.7607843, 1, 1, 1)
+z_index = -1
+position = Vector2(640, 0)
+color = Color(0.78431374, 1, 1, 0)
+polygon = PackedVector2Array(27104, 5760, 27680, 5760, 27840, 4640, 27424, 4256, 27392, 928, 25760, -224, 25952, -256, 27424, 384, 26720, -608, 28000, -608, 28928, -1088, 29152, -544, 28096, -64, 28128, 448, 29408, -64, 30080, 384, 30304, 448, 30304, 672, 29664, 608, 27968, 1056, 28160, 4128, 28128, 5184, 28480, 5248, 28576, 5600, 29312, 5664, 30368, 5120, 30944, 5440, 31104, 4896, 31048.262, 4272.25, 30464, 3648, 30560, 3488, 31066.33, 4069.8838, 31104, 3648, 30688, 2496, 30720, 1792, 31008, 1856, 31257.43, 880.9643, 30944, 448, 31168, 0, 31104, -896, 31552, -1504, 32160, -1408, 31872, -864, 31488, -352, 31680, 256, 32320, 288, 32576, 320, 33125.617, -438.0882, 32736, -1056, 33344, -736, 33824, -864, 32832, 576, 32288, 480, 31648, 448, 31488, 1408, 31744, 1664, 31680, 2208, 31424, 3616, 31433.7, 4178.6504, 31776, 3648, 32256, 3456, 32448, 3584, 31808, 4064, 31424, 4544, 31360, 5184, 31456, 5472, 32224, 5504, 32448, 4960, 32768, 4800, 33088, 3904, 33280, 4032, 33120, 4800, 33216, 5344, 33952, 5184, 35520, 4704, 36640, 3840, 37312, 3584, 37440, 3040, 37376, 2688, 38048, 2336, 37632, 1984, 37280, 1888, 37024, 1728, 36704, 1952, 36448, 1664, 36128, 1408, 35872, 1088, 37056, 1024, 39776, 608, 40736, 960, 40192, 4544, 32320, 5952, 33344, 8544, 31072, 9728, 27264, 9536, 26400, 6624, 24768, 6400, 23296, 5760, 23328, 5216, 23776, 5536, 24576, 5760, 24960, 5696, 24992, 5216, 24928, 4576, 24608, 4032, 24416, 3552, 24064, 3008, 23552, 2592, 23584, 1024, 22912, -32, 23584, -352, 23936, -416, 23808, 480, 25152, -160, 25056, -896, 25472, -672, 25504, 128, 25216, 192, 23954.064, 1255.2627, 24224, 2688, 24416, 3232, 24768, 3840, 25024, 3904, 25187.281, 3015.0405, 24928, 2848, 24992, 2720, 25218.37, 2845.7837, 25312, 2336, 25440, 1312, 25440, 288, 25792, -96, 25600, 1312, 25632, 2368, 25440, 2944, 25472, 3552, 25184, 3968, 25312, 4992, 25600, 5568, 25792, 6016, 26240, 6048, 26752, 5728, 26816, 5344, 26432, 4544, 27040, 4320, 27104, 4512, 26816, 4736, 26912, 4992)
+script = ExtResource("12_84vya")
+polygon_node = NodePath(".")
+tile_layer = NodePath("../../background_layer")
+roughness = 0.75
+point_roughness = PackedFloat32Array(-1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
+
+[node name="CashPlacer" type="Path2D" parent="builders" unique_id=1858903596 node_paths=PackedStringArray("container")]
+position = Vector2(1696, -576)
+curve = SubResource("Curve2D_f1d85")
+script = ExtResource("17_q462l")
+cash_scenes = Array[PackedScene]([ExtResource("2_q462l")])
+container = NodePath("../../cash/Node2D2")
+closed_loop = true
+spacing = 241.0
+amplitude = 64.0
+wave_length = 480.0
+roughness = 0.0
+point_roughness = PackedFloat32Array()
+arc_step_degrees = 20.0
+relax_passes = 1
+relax_strength = 1.0
+
 [node name="decorative_layer" type="TileMapLayer" parent="." unique_id=1443676029]
 self_modulate = Color(0.53729486, 0.541307, 0.5888787, 1)
 z_index = -5
@@ -6746,78 +7763,6 @@ collision_layer = 2
 
 [node name="Goal" parent="." unique_id=1875072460 instance=ExtResource("5_4a02d")]
 position = Vector2(53088, -256)
-
-[node name="LevelBuilder" type="Polygon2D" parent="." unique_id=2034790168 node_paths=PackedStringArray("polygon_node", "extra_polygons", "tile_layer")]
-z_index = -1
-position = Vector2(-3584, -9024)
-color = Color(1, 1, 1, 0)
-polygon = PackedVector2Array(30656, 11392, 30592, 11648, 30496, 12000, 29888, 12288, 29440, 12416, 28576, 12640, 27936, 12480, 27904, 12800, 28384, 13056, 28798.346, 13004.206, 28576, 13344, 28861.313, 13153.793, 28928, 13472, 29152, 12960, 29216, 13536, 29408, 13344, 29792, 13440, 29696, 13088, 30080, 13344, 30336, 13472, 30176, 13184, 30240, 12928, 30432, 13184, 30496, 12704, 30688, 13120, 30528, 13600, 30784, 13920, 31072, 13344, 30880, 12992, 31168, 12512, 31712, 12960, 31168, 13280, 31328, 13600, 31616, 13696, 31840, 13216, 32160, 13504, 32416, 13248, 32928, 13056, 33216, 12832, 33312, 12480, 33760, 12416, 34208, 12000, 34592, 12288, 34688, 12704, 35200, 12128, 35328, 13056, 36160, 12256, 36608, 12704, 36960, 12480, 37312, 13120, 37504, 13408, 37632, 12992, 37344, 12896, 37504, 12640, 37984, 12928, 38208, 12000, 37696, 11232, 37760, 10336, 37504, 10688, 36768, 11328, 36352, 11328, 35840, 11072, 35584, 10976, 35360, 10848, 35264, 10816, 35136, 10880, 35136, 11008, 35264, 11072, 35520, 11072, 35648, 11136, 35712, 11200, 35776, 11328, 35776, 11456, 35712, 11584, 35456, 11648, 34848, 11712, 33952, 11520, 33632, 10976, 33376, 10432, 33088, 10592, 33088, 11328, 32768, 11328, 32832, 11584, 32000, 11424, 32160, 11872, 31424, 11712, 31264, 11584, 30912, 11584)
-script = ExtResource("12_84vya")
-polygon_node = NodePath(".")
-extra_polygons = [NodePath("Polygon2D")]
-tile_layer = NodePath("../main_collision")
-min_forward_ratio = 0.7
-start_candidates = 36
-roughness = 1.0
-point_roughness = PackedFloat32Array(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.3, 1, 1, 1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3)
-extra_point_roughness = Array[PackedFloat32Array]([PackedFloat32Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)])
-continuity = 1.0
-cap_top = Vector2i(8, 0)
-cap_right = Vector2i(10, 14)
-cap_bottom = Vector2i(8, 11)
-cap_left = Vector2i(7, 14)
-force_flag_tiles = true
-
-[node name="Polygon2D" type="Polygon2D" parent="LevelBuilder" unique_id=158865347]
-self_modulate = Color(1, 1, 1, 0)
-position = Vector2(-704, -96)
-polygon = PackedVector2Array(27904, 11424, 27392, 11040, 27392, 10912, 27680, 10976, 28096, 11360, 28672, 11584, 29600, 11616, 30080, 11424, 30208, 11360, 30560, 11424, 30560, 11584, 30240, 11520, 30016, 11712, 29888, 12032, 29728, 11872, 29440, 11936, 29472, 12160, 29344, 12320, 29152, 12096, 29184, 11936, 28768, 11872, 28576, 12032, 28288, 11680, 27840, 11616)
-
-[node name="LevelBuilder2" type="Polygon2D" parent="." unique_id=1485697679 node_paths=PackedStringArray("polygon_node", "extra_polygons", "tile_layer")]
-z_index = -1
-position = Vector2(640, -2)
-color = Color(1, 1, 1, 0.11764706)
-polygon = PackedVector2Array(40064, 194, 39680, 386, 47744, 386, 47744, -126, 45184, -126, 45184, -2366, 46144, -2366, 46144, -3006, 43392, -3006, 43392, -2430, 44160, -2430, 44160, 2, 42496, 2, 42496, -1022, 42240, -1022, 42112, -894, 41984, -638, 41984, 2, 40512, 2, 40512, 194)
-script = ExtResource("12_84vya")
-polygon_node = NodePath(".")
-extra_polygons = [NodePath("Polygon2D")]
-tile_layer = NodePath("../collision_layer2")
-roughness = 1.0
-point_roughness = PackedFloat32Array(-1, -1, -1, -1, 0, 0, -1, -1, -1, -1, 0, 0, -1, -1, 0, 0, 0, 0, -1, -1)
-extra_point_roughness = Array[PackedFloat32Array]([PackedFloat32Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)])
-force_flag_tiles = true
-
-[node name="Polygon2D" type="Polygon2D" parent="LevelBuilder2" unique_id=1494112030]
-position = Vector2(-704, -96)
-color = Color(1, 1, 1, 0.11764706)
-polygon = PackedVector2Array(40768, -286, 41216, -286, 41216, -1182, 41664, -1630, 43200, -1630, 43584, -1630, 43584, -798, 43712, -798, 43712, -1630, 43712, -1822, 43200, -1822, 43200, -2910, 42688, -2910, 42688, -1950, 41664, -1950, 41216, -2398, 41216, -3358, 41664, -3806, 44608, -3806, 44608, -3486, 45120, -3486, 45120, -3806, 46272, -3806, 46272, -3486, 46784, -3486, 46784, -3806, 47552, -3806, 47552, -2206, 47936, -2206, 47936, -606, 48448, -606, 48448, -1374, 49728, -1374, 50048, -1566, 51008, -1566, 51072, -1694, 51008, -1822, 50048, -1822, 48512, -2334, 48512, -4254, 49280, -4254, 49152, -4766, 48896, -5278, 48640, -5534, 48128, -5790, 47104, -6046, 42176, -6046, 41152, -5790, 40640, -5534, 40384, -5278, 40128, -4766, 40000, -4254, 40768, -4254)
-
-[node name="PlatformBuilder" type="Polygon2D" parent="." unique_id=2006515685 node_paths=PackedStringArray("polygon_node", "tile_layer")]
-z_index = -1
-position = Vector2(4640, -192)
-color = Color(1, 1, 1, 0)
-polygon = PackedVector2Array(4160, -64, 4672, -64, 4672, 0, 4416, 64, 4160, 0)
-script = ExtResource("12_84vya")
-polygon_node = NodePath(".")
-tile_layer = NodePath("../one_way_platforms")
-roughness = 0.0
-point_roughness = PackedFloat32Array(-1, -1, -1, -1, -1, -1, -1, 0.33, 0.33, 0.33, 0.33, 0.33, -1, -1, -1, -1, -1, -1, 0.33, 0.33, -1, -1, -1, -1, -1, -1, -1, -1, -1)
-force_flag_tiles = true
-
-[node name="DecorBuilder" type="Polygon2D" parent="." unique_id=2110116185 node_paths=PackedStringArray("polygon_node", "tile_layer")]
-self_modulate = Color(0.7607843, 1, 1, 1)
-z_index = -1
-position = Vector2(640, 0)
-color = Color(0.78431374, 1, 1, 0)
-polygon = PackedVector2Array(27104, 5760, 27680, 5760, 27840, 4640, 27424, 4256, 27392, 928, 25760, -224, 25952, -256, 27424, 384, 26720, -608, 28000, -608, 28928, -1088, 29152, -544, 28096, -64, 28128, 448, 29408, -64, 30080, 384, 30304, 448, 30304, 672, 29664, 608, 27968, 1056, 28160, 4128, 28128, 5184, 28480, 5248, 28576, 5600, 29312, 5664, 30368, 5120, 30944, 5440, 31104, 4896, 31048.262, 4272.25, 30464, 3648, 30560, 3488, 31066.33, 4069.8838, 31104, 3648, 30688, 2496, 30720, 1792, 31008, 1856, 31257.43, 880.9643, 30944, 448, 31168, 0, 31104, -896, 31552, -1504, 32160, -1408, 31872, -864, 31488, -352, 31680, 256, 32320, 288, 32576, 320, 33125.617, -438.0882, 32736, -1056, 33344, -736, 33824, -864, 32832, 576, 32288, 480, 31648, 448, 31488, 1408, 31744, 1664, 31680, 2208, 31424, 3616, 31433.7, 4178.6504, 31776, 3648, 32256, 3456, 32448, 3584, 31808, 4064, 31424, 4544, 31360, 5184, 31456, 5472, 32224, 5504, 32448, 4960, 32768, 4800, 33088, 3904, 33280, 4032, 33120, 4800, 33216, 5344, 33952, 5184, 35520, 4704, 36640, 3840, 37312, 3584, 37440, 3040, 37376, 2688, 38048, 2336, 37632, 1984, 37280, 1888, 37024, 1728, 36704, 1952, 36448, 1664, 36128, 1408, 35872, 1088, 37056, 1024, 39776, 608, 40736, 960, 40192, 4544, 32320, 5952, 33344, 8544, 31072, 9728, 27264, 9536, 26400, 6624, 24768, 6400, 23296, 5760, 23328, 5216, 23776, 5536, 24576, 5760, 24960, 5696, 24992, 5216, 24928, 4576, 24608, 4032, 24416, 3552, 24064, 3008, 23552, 2592, 23584, 1024, 22912, -32, 23584, -352, 23936, -416, 23808, 480, 25152, -160, 25056, -896, 25472, -672, 25504, 128, 25216, 192, 23954.064, 1255.2627, 24224, 2688, 24416, 3232, 24768, 3840, 25024, 3904, 25187.281, 3015.0405, 24928, 2848, 24992, 2720, 25218.37, 2845.7837, 25312, 2336, 25440, 1312, 25440, 288, 25792, -96, 25600, 1312, 25632, 2368, 25440, 2944, 25472, 3552, 25184, 3968, 25312, 4992, 25600, 5568, 25792, 6016, 26240, 6048, 26752, 5728, 26816, 5344, 26432, 4544, 27040, 4320, 27104, 4512, 26816, 4736, 26912, 4992)
-script = ExtResource("12_84vya")
-polygon_node = NodePath(".")
-tile_layer = NodePath("../background_layer")
-roughness = 0.75
-point_roughness = PackedFloat32Array(-1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
-
-[node name="Marker2D" type="Marker2D" parent="." unique_id=981969022]
-position = Vector2(46976, -1408)
 
 [node name="Label" type="Label" parent="." unique_id=327915868]
 offset_left = 30432.0

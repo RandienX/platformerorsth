@@ -88,7 +88,7 @@ func _shoot() -> void:
 	var dir := Vector2(facing, 0.0)
 	var p := Global.player as Player
 	if aim_at_player and p != null:
-		dir = (Vector2(p.global_position.x, p.global_position.y - 96) - origin).normalized()
+		dir = (Vector2(p.global_position.x, p.global_position.y - 32) - origin).normalized()
 
 	var proj := projectile_scene.instantiate() as Node2D
 	get_parent().add_child(proj)

@@ -1,29 +1,30 @@
 extends Control
 
 signal button_changed
-var button_index := 0
+var button_index := 1
 @onready var button_container: VBoxContainer = $VBoxContainer
 var button_container_start_pos
 
 func _ready() -> void:
-	button_index = 0
+	button_index = 1
 	button_container.position.y += 330
 	button_container_start_pos = button_container.position
 	button_changed.connect(button_move)
+	button_move()
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("down"):
-		button_index = clampi(button_index + 1, 0, 4)
+		button_index = clampi(button_index + 1, 1, 5)
 		button_changed.emit()
 	elif Input.is_action_just_pressed("up"):
-		button_index = clampi(button_index - 1, 0, 4)
+		button_index = clampi(button_index - 1, 1, 5)
 		button_changed.emit()
 	elif Input.is_action_just_pressed("jump"):
 		button_container.get_children()[button_index].pressed.emit()
 	
 func _physics_process(_delta: float) -> void:
-	for c: Button in button_container.get_children():
-		c.global_position.x = button_container.global_position.x - (c.global_position.y * 0.335) + 160
+	for c in button_container.get_children():
+		c.global_position.x = button_container.global_position.x - (c.global_position.y * 0.335) + 200
 
 func button_move():
 	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

@@ -1428,6 +1428,8 @@ func die():
 	control_lock = 180
 	await get_tree().create_timer(3).timeout
 	Global.lives -= 1
+	if Global.lives < 0:
+		get_tree().change_scene_to_file("res://scenes/menu/campaign_map.tscn")
 	Global.respawn_enemies()
 	health = max_health
 	global_position = start_pos

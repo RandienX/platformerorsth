@@ -1,3 +1,4 @@
+res://scenes/menu/
 res://objects/secret/
 res://scenes/ui/
 res://objects/
@@ -7,7 +8,6 @@ res://objects/arena/
 res://resources/scripts/
 res://assets/tilesets/
 res://scenes/levels/
-res://scenes/menu/
 res://
 res://objects/boost_pad/
 res://objects/moving_platform/

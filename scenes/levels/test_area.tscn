@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://stndqsm5asbe" path="res://objects/secret/secret.tscn" id="11_mfo43"]
 [ext_resource type="PackedScene" uid="uid://b8tfk0ovnop2t" path="res://objects/breakable_wall.tscn" id="12_74qto"]
 [ext_resource type="PackedScene" uid="uid://c70dgfiux6nem" path="res://objects/enemies/kamikaze_enemy.tscn" id="12_mfo43"]
-[ext_resource type="Script" uid="uid://b464wjlmgf5f3" path="res://curve_tile_placer.gd" id="18_u3xaa"]
+[ext_resource type="Script" uid="uid://b464wjlmgf5f3" path="res://tools/old_builder.gd" id="18_u3xaa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u3xaa"]
 size = Vector2(111.25, 4)

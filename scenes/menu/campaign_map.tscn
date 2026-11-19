@@ -1,6 +1,23 @@
 [gd_scene format=3 uid="uid://bt5pwv41rvj8x"]
 
 [ext_resource type="Script" uid="uid://lpsu53f1wxpf" path="res://scenes/menu/campaign_map.gd" id="1_xt75w"]
+[ext_resource type="Script" uid="uid://bjq10qs3yf0w8" path="res://scenes/menu/chibi_movement.gd" id="2_jvtqn"]
+[ext_resource type="Script" uid="uid://ftbnp7u4mr5a" path="res://scenes/menu/campaign_level.gd" id="2_wot26"]
+[ext_resource type="PackedScene" uid="uid://bb4vkma2yy52a" path="res://scenes/levels/tutorial.tscn" id="3_65rfd"]
+[ext_resource type="Texture2D" uid="uid://btoq10qwole1a" path="res://assets/textures/menu/chibi_riley.png" id="3_wot26"]
+[ext_resource type="PackedScene" uid="uid://c8d4x57uju8a4" path="res://scenes/levels/test_area.tscn" id="4_4vct7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yl2h5"]
+size = Vector2(64, 64)
+
+[sub_resource type="Curve2D" id="Curve2D_xt75w"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 255, 832, 0, 0, 0, 0, 740, 736, 0, 0, 0, 0, 1242, 763, 0, 0, 0, 0, 1771, 736)
+}
+point_count = 4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
+size = Vector2(59, 61)
 
 [node name="CampaignMap" type="ColorRect" unique_id=2054287187]
 offset_right = 3960.0
@@ -8,7 +25,7 @@ offset_bottom = 1080.0
 color = Color(0.8756792, 0.5822517, 0.22558242, 1)
 script = ExtResource("1_xt75w")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1502635369]
+[node name="Ranch" type="ColorRect" parent="." unique_id=1502635369]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
 offset_left = 221.0
@@ -17,13 +34,7 @@ offset_right = 281.0
 offset_bottom = 833.0
 color = Color(0.6894797, 0.50111645, 0.22689074, 1)
 
-[node name="Button" type="Button" parent="ColorRect" unique_id=1202600715]
-layout_mode = 0
-offset_right = 60.0
-offset_bottom = 60.0
-flat = true
-
-[node name="Label" type="Label" parent="ColorRect/Button" unique_id=2030474561]
+[node name="Label" type="Label" parent="Ranch" unique_id=2030474561]
 layout_mode = 0
 offset_left = -16.0
 offset_top = -43.0
@@ -33,64 +44,61 @@ theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
 theme_override_font_sizes/font_size = 32
 text = "Ranch"
 
-[node name="Label2" type="Label" parent="ColorRect/Button" unique_id=856568519]
-layout_mode = 0
-offset_left = 949.0
-offset_top = -118.0
-offset_right = 1077.0
-offset_bottom = -73.0
-theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
-theme_override_font_sizes/font_size = 32
-text = "Test LVL"
-
-[node name="Label4" type="Label" parent="ColorRect/Button" unique_id=50175277]
-layout_mode = 0
-offset_left = 1487.0
-offset_top = -150.0
-offset_right = 1615.0
-offset_bottom = -105.0
-theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
-theme_override_font_sizes/font_size = 32
-text = "Boss LVL"
-
-[node name="Label3" type="Label" parent="ColorRect/Button" unique_id=1585633843]
-layout_mode = 0
-offset_left = 458.0
-offset_top = -146.0
-offset_right = 586.0
-offset_bottom = -101.0
-theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
-theme_override_font_sizes/font_size = 32
-text = "Tutorial"
-
-[node name="ColorRect2" type="ColorRect" parent="." unique_id=879230322]
+[node name="TestLVL" type="ColorRect" parent="." unique_id=879230322]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
 offset_left = 1209.0
 offset_top = 703.0
 offset_right = 1269.0
 offset_bottom = 763.0
-color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+color = Color(0.5118695, 0.3657273, 0.15026909, 1)
 
-[node name="Button" type="Button" parent="ColorRect2" unique_id=1871879169]
+[node name="Label2" type="Label" parent="TestLVL" unique_id=856568519]
 layout_mode = 0
-offset_right = 60.0
-offset_bottom = 60.0
+offset_left = -39.0
+offset_top = -48.0
+offset_right = 89.0
+offset_bottom = -3.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Test LVL"
 
-[node name="ColorRect3" type="ColorRect" parent="." unique_id=1437109123]
+[node name="LevelButton" type="Area2D" parent="TestLVL" unique_id=1085662286]
+position = Vector2(30, 30)
+monitorable = false
+script = ExtResource("2_wot26")
+level = ExtResource("4_4vct7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestLVL/LevelButton" unique_id=856672256]
+shape = SubResource("RectangleShape2D_yl2h5")
+
+[node name="Tutorial" type="ColorRect" parent="." unique_id=1437109123]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
 offset_left = 708.0
 offset_top = 676.0
 offset_right = 768.0
 offset_bottom = 736.0
-color = Color(0.6894797, 0.50111645, 0.22689074, 1)
+color = Color(0.5118695, 0.3657273, 0.15026909, 1)
 
-[node name="Button2" type="Button" parent="ColorRect3" unique_id=235898640]
+[node name="Label3" type="Label" parent="Tutorial" unique_id=1585633843]
 layout_mode = 0
-offset_left = 1.0
-offset_right = 61.0
-offset_bottom = 60.0
+offset_left = -29.0
+offset_top = -49.0
+offset_right = 99.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Tutorial"
+
+[node name="LevelButton" type="Area2D" parent="Tutorial" unique_id=1577991973]
+position = Vector2(30, 30)
+monitorable = false
+script = ExtResource("2_wot26")
+level = ExtResource("3_65rfd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tutorial/LevelButton" unique_id=448804073]
+shape = SubResource("RectangleShape2D_yl2h5")
 
 [node name="ColorRect4" type="ColorRect" parent="." unique_id=637756932]
 custom_minimum_size = Vector2(60, 60)
@@ -101,6 +109,38 @@ offset_right = 1801.0
 offset_bottom = 736.0
 color = Color(0.6894797, 0.50111645, 0.22689074, 1)
 
-[connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="ColorRect2/Button" to="." method="_on_button2_pressed"]
-[connection signal="pressed" from="ColorRect3/Button2" to="." method="_on_button_2_pressed"]
+[node name="Label4" type="Label" parent="ColorRect4" unique_id=50175277]
+layout_mode = 0
+offset_left = -33.0
+offset_top = -53.0
+offset_right = 102.0
+offset_bottom = -8.0
+theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
+theme_override_font_sizes/font_size = 32
+text = "Boss LVL"
+
+[node name="Path2D" type="Path2D" parent="." unique_id=1017780530]
+curve = SubResource("Curve2D_xt75w")
+
+[node name="ChibiMovement" type="PathFollow2D" parent="Path2D" unique_id=2046801446]
+position = Vector2(255, 832)
+rotates = false
+cubic_interp = false
+script = ExtResource("2_jvtqn")
+speed = 500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/ChibiMovement" unique_id=1461295979]
+position = Vector2(0, -32)
+texture = ExtResource("3_wot26")
+
+[node name="Chibi" type="Area2D" parent="Path2D/ChibiMovement" unique_id=554920436]
+position = Vector2(-255, -832)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/ChibiMovement/Chibi" unique_id=2102628502]
+position = Vector2(254.5, 800.5)
+shape = SubResource("RectangleShape2D_f1ai2")
+
+[connection signal="area_entered" from="TestLVL/LevelButton" to="TestLVL/LevelButton" method="_on_area_entered"]
+[connection signal="area_exited" from="TestLVL/LevelButton" to="TestLVL/LevelButton" method="_on_area_exited"]
+[connection signal="area_entered" from="Tutorial/LevelButton" to="Tutorial/LevelButton" method="_on_area_entered"]
+[connection signal="area_exited" from="Tutorial/LevelButton" to="Tutorial/LevelButton" method="_on_area_exited"]

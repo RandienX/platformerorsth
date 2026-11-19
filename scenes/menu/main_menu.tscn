@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b11wgb102dryi"]
 
 [ext_resource type="Script" uid="uid://yp3ieur6r3hd" path="res://scenes/menu/main_menu.gd" id="1_nl8w3"]
+[ext_resource type="Texture2D" uid="uid://bvlv00afvym6a" path="res://assets/textures/player/fox_test.png" id="2_3rkf3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nl8w3"]
 skew = Vector2(0.335, 0)
@@ -23,6 +24,10 @@ Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
 [sub_resource type="Theme" id="Theme_hj162"]
 Button/styles/normal = SubResource("StyleBoxFlat_nl8w3")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_247la"]
+atlas = ExtResource("2_3rkf3")
+region = Rect2(0, 768, 256, 256)
+
 [node name="Control" type="Control" unique_id=1311963667]
 layout_mode = 3
 anchors_preset = 15
@@ -34,18 +39,24 @@ script = ExtResource("1_nl8w3")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=505080898]
 z_index = 1
-color = Color(0.4351923, 0.43519226, 0.43519226, 1)
-polygon = PackedVector2Array(0, 0, 0, 1087, 960, 1080, 1300, 0)
+color = Color(0.6495181, 0.64931345, 0.69911444, 1)
+polygon = PackedVector2Array(1980, 0, 1980, 1080, 800, 1080, 1080, 0)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=988878455]
 custom_minimum_size = Vector2(1000, 1080)
 layout_mode = 0
-offset_left = 959.0
-offset_right = 1959.0
+offset_right = 1000.0
 offset_bottom = 1080.0
 offset_transform_enabled = true
 theme_override_constants/separation = 64
 alignment = 1
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=747989126]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "RanchSavior"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="campaign" type="Button" parent="VBoxContainer" unique_id=105138488]
 custom_minimum_size = Vector2(1000, 96)
@@ -106,6 +117,13 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_q8m61")
 text = "Exit"
+
+[node name="Fox" type="Sprite2D" parent="." unique_id=1221886795]
+z_index = 2
+position = Vector2(1332, 508.00018)
+rotation = -0.6602788
+scale = Vector2(-5, 5)
+texture = SubResource("AtlasTexture_247la")
 
 [connection signal="pressed" from="VBoxContainer/campaign" to="." method="_on_campaign_pressed"]
 [connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_exit_pressed"]

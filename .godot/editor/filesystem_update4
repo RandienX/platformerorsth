@@ -6,3 +6,14 @@ res://scenes/levels/tutorial.tscn
 res://scenes/levels/baselevel.gd
 res://objects/breakable_wall.tscn
 res://objects/player/player.tscn
+res://scenes/menu/main_menu.tscn
+res://scenes/menu/main_menu.gd
+res://scenes/menu/campaign_map.tscn
+res://scenes/menu/chibi_movement.gd
+res://scenes/menu/campaign_level.gd
+res://scenes/menu/campaign_map.gd
+res://objects/player/pause_menu.gd
+res://objects/enemies/main_classes/shooting_enemy.gd
+res://scenes/levels/test_area.tscn
+res://tools/cash_patterner.gd
+res://tools/cash_placer.gd

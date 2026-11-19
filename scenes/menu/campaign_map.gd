@@ -1,11 +1,5 @@
 extends ColorRect
 
-func _on_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/levels/ranch_idle.tscn")
-
-func _on_button2_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/levels/test_area.tscn")
-
-func _on_button_2_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/levels/tutorial.tscn")
-	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("menu"):
+		get_tree().change_scene_to_file("res://scenes/menu/main_menu.tscn")
