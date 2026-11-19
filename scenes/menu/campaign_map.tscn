@@ -5,7 +5,7 @@
 [node name="CampaignMap" type="ColorRect" unique_id=2054287187]
 offset_right = 3960.0
 offset_bottom = 1080.0
-color = Color(0.93333334, 0.7490196, 0.5019608, 1)
+color = Color(0.8756792, 0.5822517, 0.22558242, 1)
 script = ExtResource("1_xt75w")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1502635369]
@@ -21,6 +21,7 @@ color = Color(0.6894797, 0.50111645, 0.22689074, 1)
 layout_mode = 0
 offset_right = 60.0
 offset_bottom = 60.0
+flat = true
 
 [node name="Label" type="Label" parent="ColorRect/Button" unique_id=2030474561]
 layout_mode = 0
@@ -54,10 +55,10 @@ text = "Boss LVL"
 
 [node name="Label3" type="Label" parent="ColorRect/Button" unique_id=1585633843]
 layout_mode = 0
-offset_left = 456.0
-offset_top = -245.0
-offset_right = 584.0
-offset_bottom = -200.0
+offset_left = 458.0
+offset_top = -146.0
+offset_right = 586.0
+offset_bottom = -101.0
 theme_override_colors/font_color = Color(0.60757035, 0.43786913, 0.18922883, 1)
 theme_override_font_sizes/font_size = 32
 text = "Tutorial"
@@ -79,10 +80,10 @@ offset_bottom = 60.0
 [node name="ColorRect3" type="ColorRect" parent="." unique_id=1437109123]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
-offset_left = 709.0
-offset_top = 578.0
-offset_right = 769.0
-offset_bottom = 638.0
+offset_left = 708.0
+offset_top = 676.0
+offset_right = 768.0
+offset_bottom = 736.0
 color = Color(0.6894797, 0.50111645, 0.22689074, 1)
 
 [node name="Button2" type="Button" parent="ColorRect3" unique_id=235898640]

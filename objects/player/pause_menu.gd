@@ -14,6 +14,9 @@ func _ready() -> void:
 	button_changed.connect(button_move)
 
 func _unhandled_input(_event: InputEvent) -> void:
+	if Global.player.level_finish:
+		return
+	
 	INPUT_MENU = true if Input.is_action_just_pressed("menu") else false
 	
 	if INPUT_MENU:
@@ -60,3 +63,4 @@ func _on_exit_pressed() -> void:
 
 func _on_resume_pressed() -> void:
 	paused = false
+	button_container.visible = false

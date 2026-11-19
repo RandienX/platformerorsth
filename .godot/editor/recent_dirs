@@ -1,3 +1,6 @@
+res://objects/secret/
+res://scenes/ui/
+res://objects/
 /home/randienx/Desktop/ProjectRanch/
 res://objects/CameraTrigger/
 res://objects/arena/
@@ -6,7 +9,6 @@ res://assets/tilesets/
 res://scenes/levels/
 res://scenes/menu/
 res://
-res://objects/
 res://objects/boost_pad/
 res://objects/moving_platform/
 res://objects/enemies/subscenes/

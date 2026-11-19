@@ -27,6 +27,7 @@ signal died(enemy: Enemy)
 @export var score_value := 100
 @export var hit_cooldown_frames := 30      ## ignore further hits for a moment (multi-hit enemies)
 @export var respawns := true               ## comes back when respawn() is called
+@export var count_as_defeated := true
 @export var death_fade_time := 0.2
 
 @export_group("Player Interaction")
@@ -55,6 +56,7 @@ var _body_layer := 0
 var _body_mask := 0
 var _base_modulate := Color.WHITE
 var _fx_tween: Tween
+@warning_ignore("unused_private_class_variable")
 var _masks_synced := false
 
 func _ready() -> void:
@@ -244,6 +246,8 @@ func die(source: Node = null, fade: bool = true) -> void:
 	health = 0
 	if source is Player:
 		(source as Player).score += score_value
+		if count_as_defeated:
+			Global.player.defeats += 1
 	_on_died()
 	died.emit(self)
 	_set_active(false)

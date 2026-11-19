@@ -1437,8 +1437,8 @@ func _queue_flag_tile(target: Vector2i, base: Vector2i, dir: Vector2i, type: Vec
 	_pending_forced[target] = coords
 
 
-func _step_index(steps: Array, i: int, offset: int, closed: bool) -> int:
-	var idx := i + offset
+func _step_index(steps: Array, i: int, off: int, closed: bool) -> int:
+	var idx := i + off
 	var n := steps.size()
 	if closed:
 		return (idx % n + n) % n
@@ -1446,8 +1446,8 @@ func _step_index(steps: Array, i: int, offset: int, closed: bool) -> int:
 
 
 func _next_to_slope(steps: Array, i: int, closed: bool) -> bool:
-	for offset in [1, -1]:
-		var idx := _step_index(steps, i, offset, closed)
+	for off in [1, -1]:
+		var idx := _step_index(steps, i, off, closed)
 		if idx >= 0 and (_lib[steps[idx]["piece"]] as Piece).kind == KIND_TILE:
 			return true
 	return false
@@ -1456,8 +1456,8 @@ func _next_to_slope(steps: Array, i: int, closed: bool) -> bool:
 ## End cap for a flat run: the atlas tile that sits beside the neighbouring slope
 ## tile (same offset as in the map), e.g. the tile after the last 1x8 piece.
 func _find_cap(steps: Array, i: int, closed: bool) -> Vector2i:
-	for offset in [1, -1]:
-		var idx := _step_index(steps, i, offset, closed)
+	for off in [1, -1]:
+		var idx := _step_index(steps, i, off, closed)
 		if idx < 0:
 			continue
 		var other: Dictionary = steps[idx]

@@ -7,6 +7,9 @@ signal jumped
 signal landed
 signal crouch_boost_released
 signal state_changed(new_state: State)
+signal finished_level(goal: Node2D)
+signal player_death
+signal player_hit                 ## took damage and survived (the killing blow is a death, not a hit)
 
 enum State { GROUND, SLIDE, AIR, JUMP, crouch_boost, ATTACK, STOMP}
 
@@ -186,20 +189,58 @@ var hook_miss_returning := false
 @export_flags_2d_physics var hook_target_layer := 256      ## hook targetts layer
 @export_flags_2d_physics var hook_shot_los_mask := 3
 
+@export_group("Camera")
+@export var camera_max_distance: float = 180.0   ## px: max look-ahead at full speed
+@export var camera_max_scale: float = 0.6        ## zoom at full speed (smaller = more zoomed out)
+@export var camera_base_zoom: float = 0.6       ## zoom when standing still
+@export var camera_lookahead_start_speed := 10.0  ## px/frame: below this the camera stays centred on the player
+@export var camera_full_speed := 40.0            ## px/frame: look-ahead and zoom-out reach their maximum here
+@export var camera_vertical_factor := 0.6        ## vertical look-ahead relative to horizontal
+@export var camera_velocity_smoothing := 14.0     ## how fast the camera's idea of your velocity follows the real one (higher = snappier)
+@export var camera_offset_smoothing := 6.0       ## how fast the camera slides to the look-ahead position
+@export var camera_zoom_smoothing := 1.0         ## how fast the camera zooms in/out
+@export var camera_static_min_time := 1.0        ## seconds: shortest allowed cam_trigger transition (so a trigger with cam_move_time 0 still glides)
+@export var camera_teleport_threshold := 600.0   ## px moved in one tick that counts as a teleport (not speed)
+
+var _measured_vel := Vector2.ZERO   ## real movement of the last physics tick, px/frame
+var _prev_physics_pos := Vector2.ZERO
+var _cam_vel := Vector2.ZERO        ## smoothed velocity the camera reacts to
+var _cam_offset := Vector2.ZERO     ## smoothed look-ahead, world px
+var _cam_zoom := 0.66               ## smoothed dynamic zoom
+var _cam_center := Vector2.ZERO     ## where the camera is looking this frame (world)
+var _cam_start := Vector2.ZERO      ## where the camera was when the last transition began
+var _cam_start_zoom := Vector2.ONE
+var _cam_t := 1.0                   ## linear transition progress, 0..1 (1 = arrived)
+var _interpolated := false          ## project has physics interpolation on
+
 @export_category("Other")
 var cash: int = 0
 var score: int = 0
+var defeats: int = 0
+
+var level_finish = false
+var was_damaged = false
 
 @export var max_health: int = 3 
 var health: int = 3
-
-@export var camera_max_distance: float = 240.0
-@export var camera_max_scale: float = 0.5
 
 func _ready() -> void:
 	height_radius = stand_height_radius
 	start_pos = global_position
 	Global.player = self
+	
+	_prev_physics_pos = global_position
+	_cam_center = global_position
+	_cam_zoom = camera_base_zoom
+	_interpolated = ProjectSettings.get_setting("physics/common/physics_interpolation", false)
+	if camera:
+		# The camera is driven only through offset/zoom (neither is part of the node's
+		# transform, so physics interpolation keeps working), and smoothed by us
+		# instead of Camera2D's built-in smoothing, which would double up and add lag.
+		camera.position = Vector2.ZERO
+		camera.position_smoothing_enabled = false
+		camera.offset = Vector2.ZERO
+		camera.zoom = Vector2(_cam_zoom, _cam_zoom)
 	
 	if hook_shot_detection_range:
 		hook_shot_detection_range.monitoring = true
@@ -209,6 +250,7 @@ func _process(delta: float) -> void:
 	_update_camera(delta)
 
 func _physics_process(_delta: float) -> void:
+	_track_motion()
 	if squished:
 		_ride_carrier()
 		_update_state()
@@ -226,6 +268,9 @@ func _physics_process(_delta: float) -> void:
 	
 	_ride_carrier()   # move with whatever we stand on, before anything else this tick
 	_resolve_walls()
+	
+	if level_finish:
+		return
 	
 	if grounded:
 		hook_chain = false
@@ -1229,23 +1274,59 @@ func _update_visuals() -> void:
 		sprite.play("idle")
 
 #region other
-func _update_camera(delta):
-	var velocity_ratio = 0.01
-	if (abs(vel) > Vector2.ZERO or gsp > 0) and !static_camera:
-		velocity_ratio = (vel / max_ground_speed) if !grounded else (Vector2(gsp, velocity.y) / max_ground_speed)
-		camera.position_smoothing_enabled = true
-		if abs(velocity_ratio) > Vector2(0.5, 0.5):
-			camera.position = camera.position.lerp(velocity_ratio * camera_max_distance * camera.scale.x, 7.5 * delta)
-		else:
-			camera.position = camera.position.lerp(Vector2(0,0), 5.0 * delta)
-	elif static_camera:
-		camera.position_smoothing_enabled = false
-		camera.global_position = camera.global_position.lerp(static_camera_position, cam_time)
-		camera.zoom = camera.zoom.move_toward(static_camera_scale, cam_time*delta)
-		await get_tree().create_timer(cam_time).timeout
-	elif !static_camera:
-		camera.zoom = camera.zoom.lerp(Vector2(0.66,0.66), 5.0 * delta)
-		camera.position = camera.position.lerp(Vector2(0,0), 5.0 * delta)
+func _track_motion() -> void:
+	var d := global_position - _prev_physics_pos
+	_prev_physics_pos = global_position
+	_measured_vel = Vector2.ZERO if d.length() > camera_teleport_threshold else d
+
+## Frame-rate independent smoothing factor: lerp(a, b, _damp(rate, delta)).
+static func _damp(rate: float, delta: float) -> float:
+	return 1.0 - exp(-rate * delta)
+
+## Where the player is actually drawn this frame (same maths Godot uses to interpolate the sprite).
+func _visual_position() -> Vector2:
+	if _interpolated:
+		return _prev_physics_pos.lerp(global_position, Engine.get_physics_interpolation_fraction())
+	return global_position
+
+## Starts a linear camera transition from wherever the camera is right now.
+func _camera_retarget() -> void:
+	_cam_start = _cam_center
+	_cam_start_zoom = camera.zoom
+	_cam_t = 0.0
+
+## Call after teleporting the player (respawn, warp) so the camera doesn't swoosh across the level.
+func _camera_snap() -> void:
+	_measured_vel = Vector2.ZERO
+	_cam_vel = Vector2.ZERO
+	_cam_offset = Vector2.ZERO
+	_prev_physics_pos = global_position
+	_cam_center = global_position
+	_cam_t = 1.0
+	reset_physics_interpolation()
+
+func _update_camera(delta: float) -> void:
+	if camera == null:
+		return
+	
+	# Look-ahead + zoom from speed and direction of travel.
+	_cam_vel = _cam_vel.lerp(_measured_vel, _damp(camera_velocity_smoothing, delta))
+	var t := smoothstep(camera_lookahead_start_speed, camera_full_speed, _cam_vel.length())
+	var look := _cam_vel.normalized() * camera_max_distance * t
+	look.y *= camera_vertical_factor
+	_cam_offset = _cam_offset.lerp(look, _damp(camera_offset_smoothing, delta))
+	_cam_zoom = lerpf(_cam_zoom, lerpf(camera_base_zoom, camera_max_scale, t), _damp(camera_zoom_smoothing, delta))
+	
+	# Where the camera wants to be: on the static view, or following the player.
+	var player_pos := _visual_position()
+	var target_center := static_camera_position if static_camera else player_pos + _cam_offset
+	var target_zoom := static_camera_scale if static_camera else Vector2(_cam_zoom, _cam_zoom)
+	
+	# One straight, constant-speed move from where the camera was when the trigger was touched.
+	_cam_t = minf(_cam_t + delta / maxf(cam_time, camera_static_min_time), 1.0)
+	_cam_center = _cam_start.lerp(target_center, _cam_t)
+	camera.offset = _cam_center - player_pos
+	camera.zoom = _cam_start_zoom.lerp(target_zoom, _cam_t)
 
 func _draw() -> void:
 	if not debug_draw:
@@ -1268,12 +1349,19 @@ func _on_area_2d_area_entered(area: Area2D) -> void: #detector
 		score += 500
 		health = max_health
 		start_pos = area.global_position
+	elif area.is_in_group("goal"):
+		finished_level.emit(area)
+		hide_score_ui()
+		await get_tree().create_timer(3.0).timeout
+		finish_level()
 	elif area.is_in_group("booster"):
-		if (grounded or sliding) and area.vel_boost.y == 0:
+		if area.vel_boost.y == 0:
+			if !(grounded or sliding):
+				await landed
 			gsp += area.vel_boost.x
 		if abs(area.vel_boost.y) > 0 and !booster_latch:
 			booster_latch = true
-			if !grounded:
+			if !(grounded or sliding):
 				await landed
 			position.y -= 10
 			state = State.AIR
@@ -1290,6 +1378,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void: #detector
 		static_camera_position = area.cam_position
 		static_camera_scale = area.cam_scale
 		cam_time = area.cam_move_time
+		_camera_retarget()
 		
 func _on_hitbox_damage(area: Area2D) -> void:
 	if area.is_in_group("danger"):
@@ -1300,6 +1389,7 @@ func player_hurt():
 	if dead:
 		return
 	health -= 1
+	was_damaged = true
 	floor_collider = null
 	platform_velocity = Vector2.ZERO
 	ground_angle = 0.0
@@ -1319,11 +1409,14 @@ func player_hurt():
 	hitbox.set_deferred("disabled", true)
 	if health == 0:
 		die()
+	else:
+		player_hit.emit()
 	
 func die():
 	if dead:
 		return
 	dead = true
+	player_death.emit()
 	_hook_cancel()
 	hitbox_lock = 180
 	control_lock = 180
@@ -1332,6 +1425,7 @@ func die():
 	Global.respawn_enemies()
 	health = max_health
 	global_position = start_pos
+	_camera_snap()
 	_set_carrier(null)
 	set_collision_mask_value(1 ,true)
 	set_collision_mask_value(2 ,false)
@@ -1342,4 +1436,16 @@ func die():
 			sprite.rotation = 0.0
 		ground_angle = 0.0
 	dead = false
+	
+func hide_score_ui():
+	$CanvasLayer/UI/MarginContainer/VBoxContainer/Time.visible = false
+	$CanvasLayer/UI/MarginContainer/VBoxContainer/Score.visible = false
+	$CanvasLayer/UI/MarginContainer/VBoxContainer/Cash.visible = false
+	
+func finish_level():
+	control_lock = 9999
+	hitbox_lock = 9999
+	level_finish = true
+	# add sum animation
+	
 #endregion

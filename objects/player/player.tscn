@@ -89,7 +89,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ai2"]
-size = Vector2(128, 128)
+size = Vector2(256, 128)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1ai2"]
 bg_color = Color(0.27450982, 0, 0.078431375, 1)
@@ -180,11 +180,11 @@ shape = SubResource("CircleShape2D_g7ett")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=59492341]
 physics_interpolation_mode = 1
-zoom = Vector2(0.66, 0.66)
+zoom = Vector2(0.75, 0.75)
 limit_enabled = false
 limit_left = 0
 limit_top = 0
-position_smoothing_enabled = true
+position_smoothing_speed = 3.0
 editor_draw_limits = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1655054101]
@@ -194,7 +194,6 @@ animation = &"slide"
 [node name="HurtBoxSlide" type="Area2D" parent="AnimatedSprite2D" unique_id=1806733368]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HurtBoxSlide" unique_id=1159433426]
-position = Vector2(64, 0)
 shape = SubResource("RectangleShape2D_f1ai2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1094593005]
@@ -222,7 +221,7 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="HP" type="ProgressBar" parent="CanvasLayer/UI/MarginContainer/VBoxContainer" unique_id=1113723452]
-custom_minimum_size = Vector2(300, 40)
+custom_minimum_size = Vector2(450, 40)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_f1ai2")
 theme_override_styles/fill = SubResource("StyleBoxFlat_yl2h5")
@@ -232,6 +231,7 @@ value = 2.0
 show_percentage = false
 
 [node name="Time" type="HSplitContainer" parent="CanvasLayer/UI/MarginContainer/VBoxContainer" unique_id=1786976130]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 70
 split_offsets = PackedInt32Array(160)
@@ -250,6 +250,7 @@ text = "00:00:000"
 horizontal_alignment = 2
 
 [node name="Score" type="HSplitContainer" parent="CanvasLayer/UI/MarginContainer/VBoxContainer" unique_id=376964595]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 70
 split_offsets = PackedInt32Array(160)
@@ -269,6 +270,7 @@ text = "0000000000"
 horizontal_alignment = 2
 
 [node name="Cash" type="HSplitContainer" parent="CanvasLayer/UI/MarginContainer/VBoxContainer" unique_id=537014202]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 300
 split_offsets = PackedInt32Array(360)
@@ -424,6 +426,4 @@ shape = SubResource("RectangleShape2D_bi5m7")
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/restart" to="CanvasLayer" method="_on_restart_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/exit" to="CanvasLayer" method="_on_exit_pressed"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_damage"]
-[connection signal="area_entered" from="Hitbox" to="." method="on_moving_platform"]
-[connection signal="area_exited" from="Hitbox" to="." method="off_moving_platform"]
 [connection signal="area_entered" from="ObjectDetector" to="." method="_on_area_2d_area_entered"]

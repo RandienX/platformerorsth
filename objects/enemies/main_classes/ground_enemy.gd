@@ -90,7 +90,3 @@ func _wall_in_front() -> bool:
 ## Backup: move_and_slide reported a wall pushing against our walking direction.
 func _bumped_wall() -> bool:
 	return is_on_wall() and get_wall_normal().x * facing < 0.0
-
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	print(area.name)
