@@ -32,7 +32,8 @@ func activate_wave(wave_idx: int) -> void:
 	var wave = waves[wave_idx]
 	for s in range(len(wave.enemies)):
 		var enemy = wave.enemies[s].instantiate()
-		enemy.position = wave.enemy_positions[s]
+		enemy.position = Vector2(wave.enemy_positions[s].x, wave.enemy_positions[s].y)
+		enemy.rotation_degrees = wave.enemy_positions[s].z
 		enemy.connect("died", self.lower_enemy_count)
 		enemies_left += 1
 		call_deferred("add_child", enemy)

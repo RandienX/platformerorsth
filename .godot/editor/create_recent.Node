@@ -1,9 +1,11 @@
+Marker2D
 Node2D
+AnimatedSprite2D
+Sprite2D
 Path2D
 CollisionShape2D
 Area2D
 NinePatchRect
-Sprite2D
 PathFollow2D
 AnimationPlayer
 VSeparator
@@ -11,4 +13,3 @@ VBoxContainer
 HBoxContainer
 Label
 HSeparator
-HSplitContainer

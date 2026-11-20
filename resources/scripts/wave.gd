@@ -6,5 +6,5 @@ class_name Wave
 	set(value):
 		enemies = value
 		enemy_positions.resize(len(enemies))
-@export var enemy_positions: Array[Vector2i]
+@export var enemy_positions: Array[Vector3i] ## Z is rotation
 @export var break_time: float

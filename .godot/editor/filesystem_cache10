@@ -1,5 +1,5 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1795116001
+::res://::1795206350
 export_presets.cfg::TextFile::-1::1794856850::0::1::::<><><>0<>0<><>::
 global.gd::GDScript::2175326442935454387::1791393384::0::1::::<>Node<><>0<>0<><>::
 icon.svg::CompressedTexture2D::7155572280791668222::1790619782::1790619787::1::::<><><>0<>0<>91cf7e211532b01fcb8f1a15727e48ef<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
@@ -15,7 +15,9 @@ pickup_money.mp3::AudioStreamMP3::5606205494285914623::1793472732::1793481385::1
 ::res://assets/sound/sfx/player/::1793481385
 step.mp3::AudioStreamMP3::4508379238531634100::1793471690::1793481385::1::::<><><>0<>0<>cff8932902381fa68c6af44200fcc923<>res://.godot/imported/step.mp3-fc1a55ba3e65701e9228a50bf0126792.mp3str::
 ::res://assets/sound/tracks/::1790620647
-::res://assets/textures/::1795112987
+::res://assets/textures/::1795208392
+::res://assets/textures/enemy/::1795208402
+training_doll.png::CompressedTexture2D::2313714038505459825::1795208402::1795208405::1::::<><><>0<>0<>4a441c47a77e9aa5949b6adb70ace6e6<>res://.godot/imported/training_doll.png-bec9f145745761434728f8d7fd5c86f2.ctex::
 ::res://assets/textures/level/::1792601912
 checkpoint.png::CompressedTexture2D::8535349948219619382::1790957885::1790957888::1::::<><><>0<>0<>22d4a0d95bd422d08114b6f484c6b720<>res://.godot/imported/checkpoint.png-a74c99a56277b3893e052183c491d10d.ctex::
 goal.png::CompressedTexture2D::2986475063853493131::1790877675::1790877680::1::::<><><>0<>0<>aa6a67fa24737ccc9f611628f143a0b6<>res://.godot/imported/goal.png-e2c7c38fef36aee6840c0cabf72dd1c9.ctex::
@@ -29,9 +31,9 @@ fox.png::CompressedTexture2D::5909835237129166520::1790620415::1790786905::1::::
 fox_test.png::CompressedTexture2D::3884415570422108798::1795113255::1795113333::1::::<><><>0<>0<>35225a38d939d449a71ac2aab6d3cafe<>res://.godot/imported/fox_test.png-53d664ce544939d46a0537d5074b31e3.ctex::
 hook_head.png::CompressedTexture2D::4564710060763264421::1791372040::1791372042::1::::<><><>0<>0<>0f7864b6e509622c2c91bb1ce0e60f6c<>res://.godot/imported/hook_head.png-0983fef42c7bd9d3f51f8a4775c9f725.ctex::
 hook_line.png::CompressedTexture2D::2903694638544131444::1791371949::1791372042::1::::<><><>0<>0<>064277503842df99c5603f635f916862<>res://.godot/imported/hook_line.png-2b27230915dffbb34c3b0efd9ef61e56.ctex::
-::res://assets/tilesets/::1795108037
-test_level.tres::TileSet::6250329316719753756::1795108037::0::1::::<><><>0<>0<><>::uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png
-::res://objects/::1795110657
+::res://assets/tilesets/::1795207644
+test_level.tres::TileSet::6250329316719753756::1795207643::0::1::::<><><>0<>0<><>::uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png
+::res://objects/::1795208431
 breakable_wall.tscn::PackedScene::4742198479661286981::1795110657::0::1::::<><><>0<>0<><>::uid://ianmdbn243iy::::res://objects/enemies/main_classes/breakable_object.gd
 checkpoint.tscn::PackedScene::9163537775698891158::1791377946::0::1::::<><><>0<>0<><>::uid://dtut74n6awj7c::::res://assets/textures/level/checkpoint.png
 death_trigger.tscn::PackedScene::4170142065188825760::1791145920::0::1::::<><><>0<>0<><>::
@@ -55,6 +57,7 @@ collision_trigger.tscn::PackedScene::8066206772474250368::1791145925::0::1::::<>
 MaskSetter.gd::GDScript::3098368689185678987::1793540738::0::1::::<>Area2D<><>0<>1<><>::
 ::res://objects/enemies/::1791562898
 kamikaze_enemy.tscn::PackedScene::7070686949312325424::1791562898::0::1::::<><><>0<>0<><>::uid://coqn8q7ktvkug::::res://objects/enemies/subscripts/kamikaze_enemy.gd<>uid://c87hh252jkthe::::res://icon.svg<>uid://b8hbmj0nnydqy::::res://assets/textures/level/line_tile_test.png
+training_dummy.tscn::PackedScene::9162030230089070887::1795208431::0::1::::<><><>0<>0<><>::uid://ianmdbn243iy::::res://objects/enemies/main_classes/breakable_object.gd
 ::res://objects/enemies/main_classes/::1795115342
 breakable_object.gd::GDScript::562321659279850768::1791140303::0::1::::BreakableObject<>Enemy<><>0<>0<><>::
 enemy.gd::GDScript::3310103554712991746::1795093680::0::1::::Enemy<>CharacterBody2D<><>0<>0<><>::
@@ -92,12 +95,12 @@ main.tscn::PackedScene::184034965293735939::1790714869::0::1::::<><><>0<>0<><>::
 moving_platform_instruction.gd::GDScript::6630623693971579366::1790936483::0::1::::Instruction<>Resource<><>0<>1<><>::
 wave.gd::GDScript::7122417059918596667::1794765330::0::1::::Wave<>Resource<><>0<>1<><>::
 ::res://scenes/::1794951159
-::res://scenes/levels/::1795116232
+::res://scenes/levels/::1795207704
 baselevel.gd::GDScript::9022741624168082791::1795110110::0::1::::Level<>Node2D<><>0<>0<><>::
 base_lvl.tscn::PackedScene::2815580333066785550::1795115982::0::1::::<><><>0<>0<><>::uid://d1sxibf75phjb::::res://scenes/levels/baselevel.gd<>uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png<>uid://cvbyamlb15gem::::res://assets/tilesets/test_level.tres<>uid://dx48l63nmn0fy::::res://objects/player/player.tscn<>uid://cfaseh27cn3h::::res://objects/goal.tscn<>uid://b464wjlmgf5f3::::res://tools/old_builder.gd
 ranch_idle.tscn::PackedScene::4352437841308500905::1795115982::0::1::::<><><>0<>0<><>::uid://d1sxibf75phjb::::res://scenes/levels/baselevel.gd<>uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png<>uid://cvbyamlb15gem::::res://assets/tilesets/test_level.tres<>uid://dx48l63nmn0fy::::res://objects/player/player.tscn<>uid://cfaseh27cn3h::::res://objects/goal.tscn<>uid://b464wjlmgf5f3::::res://tools/old_builder.gd
-test_area.tscn::PackedScene::7097069832809295569::1795115982::0::1::::<><><>0<>0<><>::uid://dx48l63nmn0fy::::res://objects/player/player.tscn<>uid://d1sxibf75phjb::::res://scenes/levels/baselevel.gd<>uid://cvbyamlb15gem::::res://assets/tilesets/test_level.tres<>uid://b40wlk80q74gq::::res://objects/cash/cash.tscn<>uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png<>uid://c1r7ex6yef4o3::::res://objects/spikes/spike.tscn<>uid://cfaseh27cn3h::::res://objects/goal.tscn<>uid://dkdl7y8tg1inh::::res://objects/moving_platform/moving_platform.gd<>uid://d3s5emm56qqqg::::res://objects/checkpoint.tscn<>uid://c1p6nyo53ywnu::::res://resources/scripts/moving_platform_instruction.gd<>uid://dm6linuiu5fb1::::res://objects/CollisionTrigger/collision_trigger.tscn<>uid://b0obvo6cmolf1::::res://objects/death_trigger.tscn<>uid://nya80vcc61a6::::res://objects/enemies/main_classes/ground_enemy.tscn<>uid://dresg68db87xp::::res://objects/boost_pad/boost_pad.tscn<>uid://c80ydvqydtdgp::::res://objects/enemies/main_classes/shooting_enemy.tscn<>uid://stndqsm5asbe::::res://objects/secret/secret.tscn<>uid://b8tfk0ovnop2t::::res://objects/breakable_wall.tscn<>uid://c70dgfiux6nem::::res://objects/enemies/kamikaze_enemy.tscn<>uid://b464wjlmgf5f3::::res://old_builder.gd
-tutorial.tscn::PackedScene::2517770028526020782::1795116232::0::1::::<><><>0<>0<><>::uid://d1sxibf75phjb::::res://scenes/levels/baselevel.gd<>uid://dm6linuiu5fb1::::res://objects/CollisionTrigger/collision_trigger.tscn<>uid://d3s5emm56qqqg::::res://objects/checkpoint.tscn<>uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png<>uid://b40wlk80q74gq::::res://objects/cash/cash.tscn<>uid://c1r7ex6yef4o3::::res://objects/spikes/spike.tscn<>uid://cvbyamlb15gem::::res://assets/tilesets/test_level.tres<>uid://dresg68db87xp::::res://objects/boost_pad/boost_pad.tscn<>uid://dx48l63nmn0fy::::res://objects/player/player.tscn<>uid://dkdl7y8tg1inh::::res://objects/moving_platform/moving_platform.gd<>uid://cfaseh27cn3h::::res://objects/goal.tscn<>uid://c1p6nyo53ywnu::::res://resources/scripts/moving_platform_instruction.gd<>uid://cgxx3bkqlmdkl::::res://objects/arena/arena_trigger.tscn<>uid://c8qffyv7r2dpj::::res://resources/scripts/wave.gd<>uid://b3uu7yshcw5mh::::res://tools/level_builder.gd<>uid://b8tfk0ovnop2t::::res://objects/breakable_wall.tscn<>uid://d2xotessndwrs::::res://objects/CameraTrigger/camera_trigger.tscn<>uid://d0dp0nkx15xbf::::res://objects/arena/arena_trigger.gd<>uid://b5voilaek1jxs::::res://objects/arena/arena_door.tscn<>uid://8548omc5b6ux::::res://tools/cash_patterner.gd
+test_area.tscn::PackedScene::7097069832809295569::1795115982::0::1::::<><><>0<>0<><>::uid://dx48l63nmn0fy::::res://objects/player/player.tscn<>uid://d1sxibf75phjb::::res://scenes/levels/baselevel.gd<>uid://cvbyamlb15gem::::res://assets/tilesets/test_level.tres<>uid://b40wlk80q74gq::::res://objects/cash/cash.tscn<>uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png<>uid://c1r7ex6yef4o3::::res://objects/spikes/spike.tscn<>uid://cfaseh27cn3h::::res://objects/goal.tscn<>uid://dkdl7y8tg1inh::::res://objects/moving_platform/moving_platform.gd<>uid://d3s5emm56qqqg::::res://objects/checkpoint.tscn<>uid://c1p6nyo53ywnu::::res://resources/scripts/moving_platform_instruction.gd<>uid://dm6linuiu5fb1::::res://objects/CollisionTrigger/collision_trigger.tscn<>uid://b0obvo6cmolf1::::res://objects/death_trigger.tscn<>uid://nya80vcc61a6::::res://objects/enemies/main_classes/ground_enemy.tscn<>uid://dresg68db87xp::::res://objects/boost_pad/boost_pad.tscn<>uid://c80ydvqydtdgp::::res://objects/enemies/main_classes/shooting_enemy.tscn<>uid://stndqsm5asbe::::res://objects/secret/secret.tscn<>uid://b8tfk0ovnop2t::::res://objects/breakable_wall.tscn<>uid://c70dgfiux6nem::::res://objects/enemies/kamikaze_enemy.tscn<>uid://b464wjlmgf5f3::::res://tools/old_builder.gd
+tutorial.tscn::PackedScene::2517770028526020782::1795207704::0::1::::<><><>0<>0<><>::uid://d1sxibf75phjb::::res://scenes/levels/baselevel.gd<>uid://dm6linuiu5fb1::::res://objects/CollisionTrigger/collision_trigger.tscn<>uid://d3s5emm56qqqg::::res://objects/checkpoint.tscn<>uid://drklm0nqct17h::::res://assets/textures/level/tiles_test.png<>uid://b40wlk80q74gq::::res://objects/cash/cash.tscn<>uid://c1r7ex6yef4o3::::res://objects/spikes/spike.tscn<>uid://cvbyamlb15gem::::res://assets/tilesets/test_level.tres<>uid://dresg68db87xp::::res://objects/boost_pad/boost_pad.tscn<>uid://dx48l63nmn0fy::::res://objects/player/player.tscn<>uid://dkdl7y8tg1inh::::res://objects/moving_platform/moving_platform.gd<>uid://cfaseh27cn3h::::res://objects/goal.tscn<>uid://c1p6nyo53ywnu::::res://resources/scripts/moving_platform_instruction.gd<>uid://cgxx3bkqlmdkl::::res://objects/arena/arena_trigger.tscn<>uid://c8qffyv7r2dpj::::res://resources/scripts/wave.gd<>uid://b3uu7yshcw5mh::::res://tools/level_builder.gd<>uid://b8tfk0ovnop2t::::res://objects/breakable_wall.tscn<>uid://d2xotessndwrs::::res://objects/CameraTrigger/camera_trigger.tscn<>uid://d0dp0nkx15xbf::::res://objects/arena/arena_trigger.gd<>uid://b5voilaek1jxs::::res://objects/arena/arena_door.tscn<>uid://8548omc5b6ux::::res://tools/cash_placer.gd
 ::res://scenes/menu/::1795115342
 campaign_level.gd::GDScript::390252166062775792::1795115070::0::1::::<>Area2D<><>0<>0<><>::
 campaign_map.gd::GDScript::804173187294988751::1795114563::0::1::::<>ColorRect<><>0<>0<><>::
@@ -108,7 +111,7 @@ main_menu.tscn::PackedScene::4266351022352158820::1795113371::0::1::::<><><>0<>0
 ::res://scenes/ui/::1795114980
 finish_level_ui.gd::GDScript::4689730719884257278::1795114980::0::1::::<>Control<><>0<>0<><>::
 finish_level_ui.tscn::PackedScene::6211695508413678592::1795114980::0::1::::<><><>0<>0<><>::uid://b720gd3afq1ju::::res://scenes/ui/finish_level_ui.gd
-::res://tools/::1795116232
+::res://tools/::1795116315
+cash_placer.gd::GDScript::2379983650661542755::1795116315::0::1::::CashPlacer<>Path2D<><>0<>1<><>::
 level_builder.gd::GDScript::4394268634587992647::1795093671::0::1::::LevelBuilder<>Polygon2D<><>0<>1<><>::
 old_builder.gd::GDScript::4487693430084502790::1793200172::0::1::::CurveTilePlacer<>Node2D<><>0<>1<><>::
-cash_placer.gd::GDScript::2379983650661542755::1795116089::0::1::::CashPatterner<>Path2D<><>0<>1<><>::

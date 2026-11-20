@@ -79,7 +79,7 @@ func _ready() -> void:
 	_enemy_ready()
 
 func _physics_process(delta: float) -> void:
-	if dead:
+	if dead and collision:
 		collision.disabled = true
 		return
 	if _hit_cooldown > 0:
